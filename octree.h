@@ -51,15 +51,15 @@ private:
   /*!
   \brief array of x-coordinates of particles.
   */
-  const double *m_vCoordX;
+  const std::vector<double> m_vCoordX;
   /*!
   \brief array of y-coordinates of particles.
   */
-  const double *m_vCoordY;
+  const std::vector<double> m_vCoordY;
   /*!
   \brief array of z-coordinates of particles.
   */
-  const double *m_vCoordZ;
+  const std::vector<double> m_vCoordZ;
 
   /*!
   \brief Total number of particles. The value of this field must be same with DefaultParticles::m_iNumOfParticles.
@@ -199,9 +199,9 @@ private:
   double* m_vUpperLimitOfZ;
 
 public:
-  Octree(const vector<double> xp,
-         const vector<double> yp,
-         const vector<double> zp,
+  Octree(const std::vector<double> &xp,
+         const std::vector<double> &yp,
+         const std::vector<double> &zp,
          int treedepth, 
          int numOfParticles);
 
@@ -214,11 +214,11 @@ public:
    \brief Given a search point, find all the neighbours within specified radius. Store all the indices of the
           particles on a deque.
   */
-  int searchNeighbor(const double search_x, 
-                     const double search_y, 
-                     const double search_z, 
-                     const double radius, 
-		     std::vector<int> *result
+  int searchNeighbor(const double &search_x,
+                     const double &search_y,
+                     const double &search_z,
+                     const double &radius,
+		     std::vector<int> *result,
 		     std::vector<double> *distance);
 private:
     /*!

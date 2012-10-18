@@ -84,9 +84,9 @@ inline bool is_node_intersect_search_region(const double min_x,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-Octree::Octree(const vector<double> xp,
-               const vector<double> yp,
-               const vector<double> zp,
+Octree::Octree(const std::vector<double> &xp,
+               const std::vector<double> &yp,
+               const std::vector<double> &zp,
                int treedepth, 
                int numOfParticles) :m_vCoordX(xp), m_vCoordY(yp), m_vCoordZ(zp), m_iTotalNumberOfParticles(numOfParticles), m_iMaxDepth(treedepth) {}
 
@@ -443,13 +443,13 @@ inline uint32_t Octree::computeKey(const double& x, const double& y, const doubl
          // -----------------------------abc becomes --------------------------abc000 
  	 key=(key << 3);//insert three zeros at the end
  
-         left_x=left_x;
+
          right_x=midpt_x;
        
-         left_y=left_y;
+
          right_y=midpt_y;
 
-         left_z=left_z;
+
          right_z=midpt_z;
        }
    
@@ -463,12 +463,12 @@ inline uint32_t Octree::computeKey(const double& x, const double& y, const doubl
  	 key=(key << 3) + (1<<2);
  
          left_x=midpt_x;
-         right_x=right_x;
+
        
-         left_y=left_y;
+
          right_y=midpt_y;
 
-         left_z=left_z;
+
          right_z=midpt_z;
        }
 
@@ -480,13 +480,13 @@ inline uint32_t Octree::computeKey(const double& x, const double& y, const doubl
          // -----------------------------abc becomes --------------------------abc010 
  	 key=(key << 3) + (1<<1);
  
-         left_x=left_x;
+
          right_x=midpt_x;
        
          left_y =midpt_y;
-         right_y=right_y;
 
-         left_z=left_z;
+
+
          right_z=midpt_z;
        }
 
@@ -499,14 +499,14 @@ inline uint32_t Octree::computeKey(const double& x, const double& y, const doubl
          // -----------------------------abc becomes --------------------------abc001 
  	 key=(key << 3) + 1;
  
-         left_x=left_x;
+
          right_x=midpt_x;
        
-         left_y=left_y;
+
          right_y=midpt_y;
 
          left_z=midpt_z;
-         right_z=right_z;
+
        }
 
      //Case 5
@@ -518,12 +518,12 @@ inline uint32_t Octree::computeKey(const double& x, const double& y, const doubl
  	 key=(key << 3) + (1<<2) + (1<<1) ;
  
          left_x=midpt_x;
-         right_x=right_x;
+
        
          left_y=midpt_y;
-         right_y=right_y;
 
-         left_z=left_z;
+
+
          right_z=midpt_z;
        }
 
@@ -536,13 +536,13 @@ inline uint32_t Octree::computeKey(const double& x, const double& y, const doubl
  	 key=(key << 3) + (1<<2) + 1 ;
  
          left_x =midpt_x;
-         right_x=right_x;
+
        
-         left_y =left_y;
+
          right_y=midpt_y;
 
          left_z=midpt_z;
-         right_z=right_z;
+
        }
 
      //Case 7
@@ -553,14 +553,14 @@ inline uint32_t Octree::computeKey(const double& x, const double& y, const doubl
          // -----------------------------abc becomes --------------------------abc011 
  	 key=(key << 3) + (1<<1) + 1 ;
  
-         left_x=left_x;
+
          right_x=midpt_x;
        
          left_y =midpt_y;
-         right_y=right_y;
+
 
          left_z =midpt_z;
-         right_z=right_z;
+
        }
 
      //Case 8
@@ -572,13 +572,13 @@ inline uint32_t Octree::computeKey(const double& x, const double& y, const doubl
  	 key=(key << 3) + (1<<2) + (1<<1) +1 ;
  
          left_x=midpt_x;
-         right_x=right_x;
+
        
          left_y =midpt_y;
-         right_y=right_y;
+
 
          left_z=midpt_z;
-         right_z=right_z;
+
        }
 
     }//End for loop
@@ -587,11 +587,11 @@ inline uint32_t Octree::computeKey(const double& x, const double& y, const doubl
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-int Octree::searchNeighbor(const double search_x, 
-                           const double search_y, 
-                           const double search_z, 
-                           const double radius, 
-			   std::vector<int> *result
+int Octree::searchNeighbor(const double &search_x,
+                           const double &search_y,
+                           const double &search_z,
+                           const double &radius,
+			   std::vector<int> *result,
 			   std::vector<double> *distance) 
 {
    std::deque<int> nodelist;
