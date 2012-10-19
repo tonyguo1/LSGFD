@@ -25,17 +25,10 @@ public:
 	Elliptic_Solver_Base(DATA *data);
 	//! Basic destructor
 	virtual ~Elliptic_Solver_Base();
-	//! The member function to solve elliptic problem
-	virtual void Solve(){};
-	//! The member function for setting Matrix
-	/*!
-	 *  For base form, no parameter and no return value
-	 */
-	virtual void SetMatrix(){};
-	//! The member funtion for solving matrix
-	/*!
-	 *  For base form, no parameter and
-	 */
+	//! The method to solve elliptic problem
+	virtual void Solve()=0;
+	//! The method for setting Matrix
+	virtual void SetMatrix()=0;
 private:
 	//
 	DATA *m_data;
