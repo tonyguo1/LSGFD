@@ -1,20 +1,20 @@
 /*
- * MHDsolver.cpp
+ * MHDSolver.cpp
  *
- *  Created on: Oct 11, 2012
+ *  Created on: Oct 19, 2012
  *      Author: tongfei
  */
 
-#include "MHDsolver.h"
+#include "MHDSolver.h"
 
 namespace std {
 
-MHD_solver::MHD_solver() {
+MHD_Solver::MHD_Solver() {
 	// TODO Auto-generated constructor stub
 
 }
 
-MHD_solver::~MHD_solver() {
+MHD_Solver::~MHD_Solver() {
 	// TODO Auto-generated destructor stub
 }
 

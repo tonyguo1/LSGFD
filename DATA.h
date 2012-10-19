@@ -80,7 +80,7 @@ private:
     //! Compressible code related quantities, energy density, pressure, temperature
     vector<double> m_e, m_p, m_T;
     //! MHD related quantities
-    vector<double> m_Jx, m_Jy, m_Jz, m_phi, m_UxB_x, m_UxB_y, m_UxB_z,;
+    vector<double> m_Jx, m_Jy, m_Jz, m_phi;
     //! The neighbour list
     /*!
      *  A vector of vector contains all the neighbours of all particles, the first place is the particle itself

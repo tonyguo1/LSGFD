@@ -22,7 +22,7 @@ public:
 	/*!
 	 *  The basic one
 	 */
-	Elliptic_Solver_Base();
+	Elliptic_Solver_Base(DATA *data);
 	//! Basic destructor
 	virtual ~Elliptic_Solver_Base();
 	//! The member function to solve elliptic problem

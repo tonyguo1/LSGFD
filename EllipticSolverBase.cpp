@@ -9,7 +9,7 @@
 
 namespace std {
 
-Elliptic_Solver_Base::Elliptic_Solver_Base() {
+Elliptic_Solver_Base::Elliptic_Solver_Base(DATA *data):m_data(data) {
 	// TODO Auto-generated constructor stub
 	m_petsc = new PETSc();
 }

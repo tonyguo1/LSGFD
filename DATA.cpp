@@ -89,7 +89,7 @@ void DATA::Clear_neigh_list_and_ceoff_list(){
 		}
 }
 
-void DATA::GetLSCoefficient(vector<int> neigh, vector<double> coeff1, vector<double> coeff2,vector<double> coeff3, vector<double> coeff4){
+void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, vector<double> &coeff2, vector<double> &coeff3, vector<double> &coeff4){
 	int n = neigh.size() - 1;
 	double normal[3] = {0};
 	double h[30] = {0};
@@ -292,5 +292,17 @@ void DATA::GetLSCoefficient(vector<int> neigh, vector<double> coeff1, vector<dou
 		m_coefficient_dudz_boundary.push_back(coeff4);
 		m_num_of_boundary_par++;
 	}
+}
+
+void DATA::Cross_Product(const vector<double> &vec1, const vector<double> &vec2, vector<double> &rslt){
+	rslt[0] = vec1[1] * vec2[2] - vec1[2] * vec2[1];
+	rslt[1] = vec1[2] * vec2[0] - vec1[0] * vec2[2];
+	rslt[2] = vec1[0] * vec2[1] - vec1[1] * vec2[0];
+}
+
+void DATA::Get_MagneticFiled(const double x, const double y, const double z, vector<double> &B){
+	B[0] = 14.1 * sqrt(0.5*(1.0 - tanh((z - 1.5)/0.62)));
+	B[1] = 0;
+	B[2] = 0;
 }
 } /* namespace std */
