@@ -11,12 +11,13 @@ namespace std {
 
 Elliptic_Solver_Base::Elliptic_Solver_Base(DATA *data):m_data(data) {
 	// TODO Auto-generated constructor stub
-	m_petsc = new PETSc();
+	m_petsc = NULL;
 }
 
 Elliptic_Solver_Base::~Elliptic_Solver_Base() {
 	// TODO Auto-generated destructor stub
-	delete m_petsc;
+	if (m_petsc != NULL)
+		delete m_petsc;
 }
 
 } /* namespace std */

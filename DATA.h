@@ -62,7 +62,48 @@ public:
 	 *  /param B output The corresponding magnetic field
 	 */
 	void Get_MagneticFiled(const double x, const double y, const double z, vector<double> &B);
-	
+
+	//! The method to fetch number of particles
+	int Get_num_of_par() {return m_num_of_par;}
+	int Get_num_of_boundary_par() {return m_num_of_boundary_par;}
+	//! The mothod to fetch phi
+	vector<double>& Get_Phi() {return m_phi;}
+	//! The method to fetch J
+	vector<double>& Get_Jx() {return m_Jx;}
+	vector<double>& Get_Jy() {return m_Jx;}
+	vector<double>& Get_Jz() {return m_Jx;}
+	//! The mothods to fetch position
+	vector<double>& Get_x() {return m_xp;}
+	double Get_x(int index) {return m_xp[index];}
+	vector<double>& Get_y() {return m_yp;}
+	double Get_y(int index) {return m_yp[index];}
+	vector<double>& Get_z() {return m_zp;}
+	double Get_z(int index) {return m_zp[index];}
+	//! The mothods to fetch velocity
+	vector<double>& Get_u() {return m_up;}
+	double Get_u(int index) {return m_up[index];}
+	vector<double>& Get_v() {return m_vp;}
+	double Get_v(int index) {return m_vp[index];}
+	vector<double>& Get_w() {return m_wp;}
+	double Get_w(int index) {return m_wp[index];}
+
+	//! The method to get boundary flag
+	int Get_Boundary_Flag(int index) {return m_Boundary_Flag[index];}
+	//! The method to fetch neighbour_list
+	vector<vector<int> >& Get_neighbour_list() {return m_neighbour_list;}
+	//! The methods to fetch coefficients list
+	vector<vector<double> >& Get_coefficient_laplacian() {return m_coefficient_laplacian;}
+	vector<vector<double> >& Get_coefficient_laplacian_boundary() {return m_coefficient_laplacian_boundary;}
+	vector<vector<double> >& Get_coefficient_dudx() {return m_coefficient_dudx;}
+	vector<vector<double> >& Get_coefficient_dudx_boundary() {return m_coefficient_dudx_boundary;}
+	vector<vector<double> >& Get_coefficient_dudy() {return m_coefficient_dudy;}
+	vector<vector<double> >& Get_coefficient_dudx_boundary() {return m_coefficient_dudx_boundary;}
+	vector<vector<double> >& Get_coefficient_dudz() {return m_coefficient_dudz;}
+	vector<vector<double> >& Get_coefficient_dudz_boundary() {return m_coefficient_dudz_boundary;}
+	//! The methods to fetch normal
+	vector<double>& Get_normal_x() {return m_normal_x;}
+	vector<double>& Get_normal_y() {return m_normal_y;}
+	vector<double>& Get_normal_z() {return m_normal_z;}
 
 
 
@@ -74,7 +115,7 @@ private:
 	//! Geometry quantity:normal of all particle
 	vector<double> m_normal_x, m_normal_y, m_normal_z;
 	//! Geometry quantity: Boundary particle or not. If the particle is boundary particle Boundary_flag[i] == 1;
-	vector<int> Boundary_Flag;
+	vector<int> m_Boundary_Flag;
     //! Particle position and velocity, density, volume, mass
     vector<double> m_xp, m_yp, m_zp, m_up, m_vp, m_wp, m_rho, m_vol, m_mass;
     //! Compressible code related quantities, energy density, pressure, temperature

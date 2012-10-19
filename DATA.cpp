@@ -33,7 +33,7 @@ void DATA::Buildup_neigh_list_and_ceoff_list(){
 	m_coefficient_dudx.assign(m_num_of_par,coeff1);
 	m_coefficient_dudx.assign(m_num_of_par,coeff1);
 	m_coefficient_dudx.assign(m_num_of_par,coeff1);
-	Boundary_Flag.assign(m_num_of_par,0);
+	m_Boundary_Flag.assign(m_num_of_par,0);
 	m_normal_x.assign(m_num_of_par,0);
 	m_normal_y.assign(m_num_of_par,0);
 	m_normal_z.assign(m_num_of_par,0);
@@ -206,7 +206,7 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 
 	// Calculating coefficients with ghost particle
 	if (angles < PI / 4){
-		Boundary_Flag[neigh[0]] = 1;
+		m_Boundary_Flag[neigh[0]] = 1;
 		n++;
 		h[n] = normal[0] / (n-1);
 		k[n] = normal[1] / (n-1);
