@@ -73,7 +73,7 @@ void DATA::Buildup_neigh_list_and_ceoff_list(){
 	}
 }
 
-void DATA::clear_neigh_list_and_ceoff_list(){
+void DATA::Clear_neigh_list_and_ceoff_list(){
 	int size = m_coefficient_laplacian_boundary.size();
 	if (size != 0){
 			for (int i = 0; i < size; i++){

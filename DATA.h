@@ -34,9 +34,35 @@ public:
 	 */
 	void Buildup_neigh_list_and_ceoff_list();
 	//! The method to clear neighbour list and coefficient list
-	void clear_neigh_list_and_ceoff_list();
+	void Clear_neigh_list_and_ceoff_list();
 	//! The method to calculate coefficients for all particles
-	void GetLSCoefficient(vector<int> neigh, vector<double> coeff1, vector<double> coeff2,vector<double> coeff3, vector<double> coeff4);
+	/*!
+	 *  \param neigh input The neighbour list of corresponding particle 
+	 *  \param coeff1 input/output The coefficients for laplacian
+	 *  \param coeff2 input/output the coefficients for dudx
+	 *  \param coeff3 input/output the coefficients for dudy
+	 *  \param coeff3 input/output the coefficients for dudz
+	 */
+	void GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, vector<double> &coeff2, vector<double> &coeff3, vector<double> &coeff4);
+	
+public:
+	//! Utilities
+	//! The method to calculate cross product rslt = vec1 X vec2
+	/*!
+	 *  \param vec1 input The first vector
+	 *  \param vec2 input The second vector
+	 *  \param rslt output The result
+	 */
+	void Cross_Product(const vector<double> &vec1, const vector<double> &vec2, vector<double> &rslt);
+	//! The method to get magnetic field
+	/*!
+	 *  /param x input x position of given point
+	 *  /param y input y position of given point
+	 *  /param z input z position of given point
+	 *  /param B output The corresponding magnetic field
+	 */
+	void Get_MagneticFiled(const double x, const double y, const double z, vector<double> &B);
+	
 
 
 
@@ -54,7 +80,7 @@ private:
     //! Compressible code related quantities, energy density, pressure, temperature
     vector<double> m_e, m_p, m_T;
     //! MHD related quantities
-    vector<double> m_Jx, m_Jy, m_Jz, m_phi;
+    vector<double> m_Jx, m_Jy, m_Jz, m_phi, m_UxB_x, m_UxB_y, m_UxB_z,;
     //! The neighbour list
     /*!
      *  A vector of vector contains all the neighbours of all particles, the first place is the particle itself
@@ -67,14 +93,14 @@ private:
      */
     vector<vector<double> > m_coefficient_laplacian, m_coefficient_dudx, m_coefficient_dudy, m_coefficient_dudz;
     //! The coefficient list for boundary particle
-        /*!
-         *  Store the coefficients of dudx, dudy, dudz, and laplacian of all particles, each coefficient is for the particle in the corresponding place of neighbour_list
-         */
-        vector<vector<double> > m_coefficient_laplacian_boundary, m_coefficient_dudx_boundary, m_coefficient_dudy_boundary, m_coefficient_dudz_boundary;
+    /*!
+     *  Store the coefficients of dudx, dudy, dudz, and laplacian of all particles, each coefficient is for the particle in the corresponding place of neighbour_list
+     */
+    vector<vector<double> > m_coefficient_laplacian_boundary, m_coefficient_dudx_boundary, m_coefficient_dudy_boundary, m_coefficient_dudz_boundary;
     //! The pointer to octree class
-        /*!
-         *  For building neighbour list
-         */
+    /*!
+     *  For building neighbour list
+     */
     Octree *m_octree;
 };
 
