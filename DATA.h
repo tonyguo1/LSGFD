@@ -4,7 +4,11 @@
  *  Created on: Oct 11, 2012
  *      Author: tongfei
  */
-//! The class to store basic data shared by all solvers and some data manipulation method
+/**
+ *
+ * \brief	The class to store basic data shared by all solvers and some data manipulation method
+ */
+
 /*!
  *  The pointer to this class will be pass to solvers by controller
  */
@@ -104,6 +108,10 @@ public:
 	vector<double>& Get_normal_x() {return m_normal_x;}
 	vector<double>& Get_normal_y() {return m_normal_y;}
 	vector<double>& Get_normal_z() {return m_normal_z;}
+	//! The mothods to fetch compressible related quantities
+	vector<double>& Get_energy() {return m_energy;}
+	vector<double>& Get_rho() {return m_rho;}
+	vector<double>& Get_pressure() {return m_pressure;}
 
 
 

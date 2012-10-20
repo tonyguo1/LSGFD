@@ -4,7 +4,10 @@
  *  Created on: Oct 11, 2012
  *      Author: tongfei
  */
-//! The class to control everything
+/**
+ *
+ * \brief	The class to do scheduling
+ */
 
 #ifndef CONTROLLER_H_
 #define CONTROLLER_H_

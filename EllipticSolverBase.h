@@ -4,7 +4,11 @@
  *  Created on: Oct 11, 2012
  *      Author: tongfei
  */
-//! The base class for all elliptic solver
+/**
+ *
+ * \brief	The base class for all elliptic solver
+ */
+
 /*!
  *  This class will be inherited by all elliptic solvers.
  */

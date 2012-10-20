@@ -7,7 +7,10 @@
 
 #ifndef TIMEINTEGRATORBASE_H_
 #define TIMEINTEGRATORBASE_H_
-
+/**
+ *
+ * \brief	The base class of all time integrator
+ */
 namespace std {
 
 class Time_Integrator_Base {

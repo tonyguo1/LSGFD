@@ -4,7 +4,10 @@
  *  Created on: Oct 11, 2012
  *      Author: tongfei
  */
-
+/**
+ *
+ * \brief	The class to solve hyperbolic step for compressible material
+ */
 #ifndef COMPRESSIBLESOLVER_H_
 #define COMPRESSIBLESOLVER_H_
 
@@ -37,10 +40,10 @@ public:
 	           	       const vector<double> &wp_old,
 	           	       const vector<double> &rho_old,
 	           	       const vector<double> &energy_old,
-	           	       const vector<double> &pressure_mid,
-	           	       const vector<double> &up_mid,
-	           	       const vector<double> &vp_mid,
-	           	       const vector<double> &wp_mid,
+	           	       const vector<double> &pressure_current,
+	           	       const vector<double> &up_current,
+	           	       const vector<double> &vp_current,
+	           	       const vector<double> &wp_current,
 	           	       //! output
 	           	       vector<double> &xp_new,
 	           	       vector<double> &yp_new,

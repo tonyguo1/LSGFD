@@ -4,7 +4,10 @@
  *  Created on: Oct 11, 2012
  *      Author: tongfei
  */
-
+/**
+ *
+ * \brief	The base class for all hyperbolic solver
+ */
 #ifndef HYPERBOLICSOLVERBASE_H_
 #define HYPERBOLICSOLVERBASE_H_
 

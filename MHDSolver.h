@@ -11,7 +11,10 @@
 #include "EllipticSolverBase.h"
 #include <vector>
 #include "solver_lapack_cf.h"
-
+/**
+ *
+ * \brief	The class to solve MHD related electric potential laplacian phi = rhs
+ */
 namespace std {
 
 class MHD_Solver: public std::Elliptic_Solver_Base {

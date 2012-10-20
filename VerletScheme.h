@@ -4,7 +4,10 @@
  *  Created on: Oct 20, 2012
  *      Author: tongfei
  */
-
+/**
+ *
+ * \brief	The class to perform Verlet Scheme
+ */
 #ifndef VERLETSCHEME_H_
 #define VERLETSCHEME_H_
 
