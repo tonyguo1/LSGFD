@@ -5,7 +5,7 @@
  *      Author: tongfei
  */
 
-#include "HyperbolicSolverbase.h"
+#include "HyperbolicSolverBase.h"
 
 namespace std {
 
