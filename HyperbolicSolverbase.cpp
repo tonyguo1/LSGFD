@@ -9,7 +9,7 @@
 
 namespace std {
 
-Hyperbolic_Solver_base::Hyperbolic_Solver_base() {
+Hyperbolic_Solver_base::Hyperbolic_Solver_base():m_dt(0) {
 	// TODO Auto-generated constructor stub
 
 }

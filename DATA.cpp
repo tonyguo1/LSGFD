@@ -11,6 +11,11 @@
 namespace std {
 
 DATA::DATA() {
+	m_octree = NULL;
+	m_num_of_par = 0;
+	m_num_of_boundary_par = 0;
+	m_distance = 0;
+
 	// TODO Auto-generated constructor stub
 
 }
@@ -19,29 +24,29 @@ DATA::~DATA() {
 	// TODO Auto-generated destructor stub
 }
 
-void DATA::Buildup_neigh_list_and_ceoff_list(){
-	int N = m_num_of_par;
+void DATA::Buildup_neigh_list_and_ceoff_list(const vector<double> &xp, const vector<double> &yp, const vector<double> &zp, const double &distance, const int num_of_par){
+	int N = num_of_par;
 	/** 5 is optimum for search */
-	m_octree = new Octree(m_xp, m_yp, m_zp, N, 5);
+	m_octree = new Octree(xp, yp, zp, N, 5);
 	vector<double> coeff1(30,0);
 	vector<double> coeff2(30,0);
 	vector<double> coeff3(30,0);
 	vector<double> coeff4(30,0);
 	vector<int> neigh;
-	m_neighbour_list.assign(m_num_of_par,neigh);
-	m_coefficient_laplacian.assign(m_num_of_par,coeff1);
-	m_coefficient_dudx.assign(m_num_of_par,coeff1);
-	m_coefficient_dudx.assign(m_num_of_par,coeff1);
-	m_coefficient_dudx.assign(m_num_of_par,coeff1);
-	m_Boundary_Flag.assign(m_num_of_par,0);
-	m_normal_x.assign(m_num_of_par,0);
-	m_normal_y.assign(m_num_of_par,0);
-	m_normal_z.assign(m_num_of_par,0);
-	for (int i_index = 0; i_index < m_num_of_par; i_index++){
+	m_neighbour_list.assign(num_of_par,neigh);
+	m_coefficient_laplacian.assign(num_of_par,coeff1);
+	m_coefficient_dudx.assign(num_of_par,coeff1);
+	m_coefficient_dudx.assign(num_of_par,coeff1);
+	m_coefficient_dudx.assign(num_of_par,coeff1);
+	m_Boundary_Flag.assign(num_of_par,0);
+	m_normal_x.assign(num_of_par,0);
+	m_normal_y.assign(num_of_par,0);
+	m_normal_z.assign(num_of_par,0);
+	for (int i_index = 0; i_index < num_of_par; i_index++){
 		/** Get the neighbour list*/
 		vector<int> *octree_search_result = new vector<int>;
 		vector<double> *octree_search_distance = new vector<int>;
-		int search_num = m_octree->searchNeighbor(m_xp[i_index], m_yp[i_index], m_zp[i_index], 2 * m_distance, octree_search_result, octree_search_distance );
+		int search_num = m_octree->searchNeighbor(xp[i_index], yp[i_index], zp[i_index], 2 * distance, octree_search_result, octree_search_distance );
 		neigh.push_back(i_index);
 		pair<double, int> pa;
 		vector<pair<double, int> > vecs;
@@ -63,13 +68,13 @@ void DATA::Buildup_neigh_list_and_ceoff_list(){
 			++it_v;
 		}
 		m_neighbour_list[i_index] = neigh;
-		neigh.clear();
 		delete octree_search_result;
 		delete octree_search_distance;
 
 
 		/** Get the coefficients*/
 		GetLSCoefficient(neigh, coeff1, coeff2,coeff3,coeff4);
+		neigh.clear();
 	}
 }
 

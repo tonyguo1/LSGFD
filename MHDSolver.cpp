@@ -33,9 +33,9 @@ virtual void MHD_Solver::Solve(){
 			  m_data->Get_coefficient_dudx_boundary(),
 			  m_data->Get_coefficient_dudy_boundary(),
 			  m_data->Get_coefficient_dudz_boundary(),
-			  m_data->Get_normal_x,
-			  m_data->Get_normal_y,
-			  m_data->Get_normal_z);
+			  m_data->Get_normal_x(),
+			  m_data->Get_normal_y(),
+			  m_data->Get_normal_z());
 	m_petsc->Solve_withPureNeumann_GMRES();
 	int iter;
 	double residual;
@@ -46,21 +46,21 @@ virtual void MHD_Solver::Solve(){
 	Set_Phi(m_data->Get_Phi(), x);
 	delete [] x;
 	Calculate_J(m_data->Get_neighbour_list(),
-		      m_data->Get_coefficient_laplacian(),
-		      m_data->Get_coefficient_dudx(),
-		      m_data->Get_coefficient_dudy(),
-		      m_data->Get_coefficient_dudz(),
-		      m_data->Get_coefficient_laplacian_boundary(),
-		      m_data->Get_coefficient_dudx_boundary(),
-		      m_data->Get_coefficient_dudy_boundary(),
-		      m_data->Get_coefficient_dudz_boundary(),
-		      m_data->Get_normal_x,
-		      m_data->Get_normal_y,
-		      m_data->Get_normal_z,
-		      m_data->Get_Jx,
-		      m_data->Get_Jy,
-		      m_data->Get_Jz,
-		      m_data->Get_Phi);
+		      	m_data->Get_coefficient_laplacian(),
+		      	m_data->Get_coefficient_dudx(),
+		      	m_data->Get_coefficient_dudy(),
+		      	m_data->Get_coefficient_dudz(),
+		      	m_data->Get_coefficient_laplacian_boundary(),
+		      	m_data->Get_coefficient_dudx_boundary(),
+		      	m_data->Get_coefficient_dudy_boundary(),
+		      	m_data->Get_coefficient_dudz_boundary(),
+		        m_data->Get_normal_x(),
+		     	m_data->Get_normal_y(),
+		      	m_data->Get_normal_z(),
+		      	m_data->Get_Jx(),
+		      	m_data->Get_Jy(),
+		      	m_data->Get_Jz(),
+		      	m_data->Get_Phi());
 }
 
 virtual void MHD_Solver::SetMatrix(const vector<vector<int> > &neighbour_list,
@@ -74,7 +74,7 @@ virtual void MHD_Solver::SetMatrix(const vector<vector<int> > &neighbour_list,
 		                           const vector<vector<double> > &coefficient_dudz_boundary,
 		                           const vector<double> &normal_x,
 		                           const vector<double> &normal_y,
-		                           const vector<double> &normal_z);{
+		                           const vector<double> &normal_z){
 	int boundary_index = 0;
 	int num_of_par = m_data->Get_num_of_par();
 	for (int index = 0; index < num_of_par; index++){
@@ -143,7 +143,7 @@ void MHD_Solver::Calculate_J(const vector<vector<int> > &neighbour_list,
                              const vector<double> &Jx,
                              const vector<double> &Jy,
                              const vector<double> &Jz,
-                             const vector<double> Phi){
+                             const vector<double> &Phi){
 	double m_fluidConductivity = 1e13;
 	int boundary_index = 0;
 	int num_of_par = m_data->Get_num_of_par();

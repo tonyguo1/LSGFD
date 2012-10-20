@@ -32,7 +32,7 @@ public:
 	/*!
 	 *  This function will call functions from octree search class and coefficient calculation class
 	 */
-	void Buildup_neigh_list_and_ceoff_list();
+	void Buildup_neigh_list_and_ceoff_list(const vector<double> &xp, const vector<double> &yp, const vector<double> &zp, const double &distance, const int num_of_par);
 	//! The method to clear neighbour list and coefficient list
 	void Clear_neigh_list_and_ceoff_list();
 	//! The method to calculate coefficients for all particles
@@ -97,7 +97,7 @@ public:
 	vector<vector<double> >& Get_coefficient_dudx() {return m_coefficient_dudx;}
 	vector<vector<double> >& Get_coefficient_dudx_boundary() {return m_coefficient_dudx_boundary;}
 	vector<vector<double> >& Get_coefficient_dudy() {return m_coefficient_dudy;}
-	vector<vector<double> >& Get_coefficient_dudx_boundary() {return m_coefficient_dudx_boundary;}
+	vector<vector<double> >& Get_coefficient_dudy_boundary() {return m_coefficient_dudx_boundary;}
 	vector<vector<double> >& Get_coefficient_dudz() {return m_coefficient_dudz;}
 	vector<vector<double> >& Get_coefficient_dudz_boundary() {return m_coefficient_dudz_boundary;}
 	//! The methods to fetch normal
