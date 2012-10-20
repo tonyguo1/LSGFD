@@ -25,6 +25,7 @@ public:
 	 */
 	void Update_States(//! input
 				       const vector<vector<int> > &neighbour_list,
+				       const vector<vector<double> > &coefficient_laplacian,
 	           	       const vector<vector<double> > &coefficient_dudx,
 	           	       const vector<vector<double> > &coefficient_dudy,
 	           	       const vector<vector<double> > &coefficient_dudz,
@@ -35,7 +36,11 @@ public:
 	           	       const vector<double> &vp_old,
 	           	       const vector<double> &wp_old,
 	           	       const vector<double> &rho_old,
-	           	       const vector<double> &e_old,
+	           	       const vector<double> &energy_old,
+	           	       const vector<double> &pressure_mid,
+	           	       const vector<double> &up_mid,
+	           	       const vector<double> &vp_mid,
+	           	       const vector<double> &wp_mid,
 	           	       //! output
 	           	       vector<double> &xp_new,
 	           	       vector<double> &yp_new,

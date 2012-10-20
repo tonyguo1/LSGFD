@@ -119,7 +119,7 @@ private:
     //! Particle position and velocity, density, volume, mass
     vector<double> m_xp, m_yp, m_zp, m_up, m_vp, m_wp, m_rho, m_vol, m_mass;
     //! Compressible code related quantities, energy density, pressure, temperature
-    vector<double> m_e, m_p, m_T;
+    vector<double> m_energy, m_pressure, m_temperature;
     //! MHD related quantities
     vector<double> m_Jx, m_Jy, m_Jz, m_phi;
     //! The neighbour list
