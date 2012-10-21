@@ -17,9 +17,10 @@ namespace std {
 
 class Verlet_Scheme: public std::Time_Integrator_Base {
 public:
-	Verlet_Scheme();
+	Verlet_Scheme(DATA *data);
 	virtual ~Verlet_Scheme();
-	virtual void Integrate();
+	void Init();
+	virtual void Integrate(double dt);
 private:
 	//! Variables of n - 1 step
 	vector<double> m_xp_pre;
@@ -30,6 +31,11 @@ private:
 	vector<double> m_wp_pre;
 	vector<double> m_rho_pre;
 	vector<double> m_energy_pre;
+	//! pointer to data
+	DATA *m_data;
+	double m_dt;
+	Elliptic_Solver_Base *m_ES;
+	Hyperbolic_Solver_Base *m_HS;
 };
 
 } /* namespace std */

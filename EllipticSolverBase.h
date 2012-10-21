@@ -30,9 +30,9 @@ public:
 	//! Basic destructor
 	virtual ~Elliptic_Solver_Base();
 	//! The method to solve elliptic problem
-	virtual void Solve()=0;
+	virtual void Solve(){};
 	//! The method for setting Matrix
-	virtual void SetMatrix()=0;
+	virtual void SetMatrix(){};
 private:
 	//
 	DATA *m_data;

@@ -9,13 +9,29 @@
 
 namespace std {
 
-Verlet_Scheme::Verlet_Scheme() {
-	// TODO Auto-generated constructor stub
-
+Verlet_Scheme::Verlet_Scheme(DATA *data):m_data(data) {
+	Init();
 }
 
 Verlet_Scheme::~Verlet_Scheme() {
 	// TODO Auto-generated destructor stub
+}
+
+void Verlet_Scheme::Init(){
+	m_xp_pre = m_data->Get_x();
+	m_yp_pre = m_data->Get_y();
+	m_zp_pre = m_data->Get_z();
+	m_up_pre = m_data->Get_u();
+	m_vp_pre = m_data->Get_v();
+	m_wp_pre = m_data->Get_w();
+	m_rho_pre = m_data->Get_rho();
+    m_energy_pre = m_data->Get_energy();
+    m_ES = new MHD_Solver(m_data);
+    m_HS = new Compressible_Solver(m_data);
+}
+
+void Verlet_Scheme::Integrate(double dt){
+
 }
 
 } /* namespace std */

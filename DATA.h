@@ -48,6 +48,8 @@ public:
 	 *  \param coeff3 input/output the coefficients for dudz
 	 */
 	void GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, vector<double> &coeff2, vector<double> &coeff3, vector<double> &coeff4);
+	void Print_control(double time);
+	void Print(double time);
 	
 public:
 	//! Utilities
@@ -66,6 +68,7 @@ public:
 	 *  /param B output The corresponding magnetic field
 	 */
 	void Get_MagneticFiled(const double x, const double y, const double z, vector<double> &B);
+	void Get_dt();
 
 	//! The method to fetch number of particles
 	int Get_num_of_par() {return m_num_of_par;}
@@ -112,6 +115,9 @@ public:
 	vector<double>& Get_energy() {return m_energy;}
 	vector<double>& Get_rho() {return m_rho;}
 	vector<double>& Get_pressure() {return m_pressure;}
+	//! For basic setting
+	double Get_max_time() {return m_max_time;}
+	int Get_max_step() {return m_max_step;}
 
 
 
@@ -130,6 +136,8 @@ private:
     vector<double> m_energy, m_pressure, m_temperature;
     //! MHD related quantities
     vector<double> m_Jx, m_Jy, m_Jz, m_phi;
+    //! Force
+    vector<double> m_force_x, m_force_y, m_force_z;
     //! The neighbour list
     /*!
      *  A vector of vector contains all the neighbours of all particles, the first place is the particle itself
@@ -151,6 +159,9 @@ private:
      *  For building neighbour list
      */
     Octree *m_octree;
+    //! setting related data
+    double m_max_time;
+    int m_max_step;
 };
 
 } /* namespace std */

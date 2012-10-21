@@ -11,13 +11,13 @@
 #ifndef COMPRESSIBLESOLVER_H_
 #define COMPRESSIBLESOLVER_H_
 
-#include "HyperbolicSolverbase.h"
+#include "HyperbolicSolverBase.h"
 
 namespace std {
 
-class Compressible_Solver: public std::Hyperbolic_Solver_base {
+class Compressible_Solver: public std::Hyperbolic_Solver_Base {
 public:
-	Compressible_Solver();
+	Compressible_Solver(DATA *data);
 	virtual ~Compressible_Solver();
 	//! The method to solve hyperbolic step
 	virtual void Solve();
@@ -53,7 +53,15 @@ public:
 	           	       vector<double> &wp_new,
 	           	       vector<double> &rho_new,
 	           	       vector<double> &e_new);
+	//! The method to set m_dt
+	void set_dt(double dt){m_dt = dt;}
+private:
+	DATA *m_data;
+	double m_dt;
+
 };
+
+
 
 } /* namespace std */
 #endif /* COMPRESSIBLESOLVER_H_ */

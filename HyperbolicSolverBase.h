@@ -13,17 +13,13 @@
 
 namespace std {
 
-class Hyperbolic_Solver_base {
+class Hyperbolic_Solver_Base {
 public:
 	//! The constructor, initial m_dt to be 0
-	Hyperbolic_Solver_base();
-	virtual ~Hyperbolic_Solver_base();
+	Hyperbolic_Solver_Base();
+	virtual ~Hyperbolic_Solver_Base();
 	//! The method to solve hyperbolic step
-	virtual void Solve()=0;
-	//! The method to set m_dt
-	void set_dt(double dt){m_dt = dt;}
-private:
-	double m_dt;
+	virtual void Solve(){};
 };
 
 } /* namespace std */

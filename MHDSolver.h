@@ -9,8 +9,8 @@
 #define MHDSOLVER_H_
 
 #include "EllipticSolverBase.h"
-#include <vector>
 #include "solver_lapack_cf.h"
+#include <vector>
 /**
  *
  * \brief	The class to solve MHD related electric potential laplacian phi = rhs

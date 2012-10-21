@@ -15,6 +15,8 @@ DATA::DATA() {
 	m_num_of_par = 0;
 	m_num_of_boundary_par = 0;
 	m_distance = 0;
+	m_max_step = 0;
+	m_max_time = 0;
 
 	// TODO Auto-generated constructor stub
 

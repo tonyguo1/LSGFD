@@ -9,7 +9,7 @@
 
 namespace std {
 
-Time_Integrator_Base::Time_Integrator_Base(double dt):m_dt(dt) {
+Time_Integrator_Base::Time_Integrator_Base() {
 	// TODO Auto-generated constructor stub
 
 }

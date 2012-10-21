@@ -11,18 +11,22 @@
 
 #ifndef CONTROLLER_H_
 #define CONTROLLER_H_
-#include <DATA.h>
+#include "DATA.h"
+#include "VerletScheme.cpp"
+#include "TimeIntegrator.h"
 namespace std {
 
 class Controller {
 public:
 	Controller();
 	virtual ~Controller();
-	void start();
+	//! The method to do initialization for controller
+	void Initialization();
+	//! Start the controller
+	void Start();
 private:
-	DATA *m_data;
-	Elliptic_Solver_Base m_mhd_solver;
-	Hyperbolic_Solver_Base m_compressible_solver;
+	DATA m_data;
+	Time_Integrator_Base *m_time_integrator;
 };
 
 } /* namespace std */

@@ -9,7 +9,7 @@
 
 namespace std {
 
-Compressible_Solver::Compressible_Solver() {
+Compressible_Solver::Compressible_Solver(DATA *data):m_data(data),m_dt(0){
 	// TODO Auto-generated constructor stub
 
 }
