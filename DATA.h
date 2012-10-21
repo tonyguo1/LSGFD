@@ -67,7 +67,7 @@ public:
 	 *  /param B output The corresponding magnetic field
 	 */
 	void Get_MagneticFiled(const double x, const double y, const double z, vector<double> &B);
-	void Get_dt();
+	double Get_dt();
 
 	//! The method to fetch number of particles
 	int Get_num_of_par() {return m_num_of_par;}

@@ -24,7 +24,7 @@ public:
 	void Initialization();
 	//! Start the controller
 	void Start();
-	void Get_dt();
+	double Get_dt();
 	void Print_control(double t);
 private:
 	DATA m_data;
