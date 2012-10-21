@@ -24,9 +24,13 @@ public:
 	void Initialization();
 	//! Start the controller
 	void Start();
+	void Get_dt();
+	void Print_control(double t);
 private:
 	DATA m_data;
 	Time_Integrator_Base *m_time_integrator;
+	double m_time, m_dt;
+	int m_step;
 };
 
 } /* namespace std */
