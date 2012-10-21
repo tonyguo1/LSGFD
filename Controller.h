@@ -25,12 +25,11 @@ public:
 	//! Start the controller
 	void Start();
 	double Get_dt();
-	void Print_control(double t);
 private:
 	DATA m_data;
 	Time_Integrator_Base *m_time_integrator;
-	double m_time, m_dt;
-	int m_step;
+	double m_time, m_dt, m_print_interval, m_max_time, m_next_print_time;
+	int m_step, m_max_step, m_i_output, m_nprint;
 };
 
 } /* namespace std */
