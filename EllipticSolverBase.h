@@ -33,10 +33,6 @@ public:
 	virtual void Solve(){};
 	//! The method for setting Matrix
 	virtual void SetMatrix(){};
-private:
-	//
-	DATA *m_data;
-	PETSc *m_petsc;
 };
 
 } /* namespace std */

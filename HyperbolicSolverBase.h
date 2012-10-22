@@ -19,7 +19,8 @@ public:
 	Hyperbolic_Solver_Base();
 	virtual ~Hyperbolic_Solver_Base();
 	//! The method to solve hyperbolic step
-	virtual void Solve(){};
+	virtual void Solve()=0;
+	virtual void Set_dt()=0;
 };
 
 } /* namespace std */

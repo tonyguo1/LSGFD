@@ -54,7 +54,7 @@ public:
 	           	       vector<double> &rho_new,
 	           	       vector<double> &e_new);
 	//! The method to set m_dt
-	void set_dt(double dt){m_dt = dt;}
+	void Set_dt(double dt){m_dt = dt;}
 private:
 	DATA *m_data;
 	double m_dt;

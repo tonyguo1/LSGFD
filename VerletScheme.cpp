@@ -30,8 +30,10 @@ void Verlet_Scheme::Init(){
     m_HS = new Compressible_Solver(m_data);
 }
 
-void Verlet_Scheme::Integrate(double dt){
-
+void Verlet_Scheme::Integrate(const double &dt){
+	m_ES->Solve();
+	m_HS->Set_dt(dt);
+	m_HS->Solve();
 }
 
 } /* namespace std */

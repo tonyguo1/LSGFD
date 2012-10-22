@@ -9,9 +9,9 @@
 
 namespace std {
 
-MHD_Solver::MHD_Solver(DATA *data):Elliptic_Solver_Base(data) {
+MHD_Solver::MHD_Solver(DATA *data):m_data(data) {
 	// TODO Auto-generated constructor stub
-
+	m_petsc = NULL:
 }
 
 MHD_Solver::~MHD_Solver() {

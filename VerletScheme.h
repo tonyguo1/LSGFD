@@ -20,7 +20,7 @@ public:
 	Verlet_Scheme(DATA *data);
 	virtual ~Verlet_Scheme();
 	void Init();
-	virtual void Integrate(double dt);
+	virtual void Integrate(const double &dt);
 private:
 	//! Variables of n - 1 step
 	vector<double> m_xp_pre;

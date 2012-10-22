@@ -60,6 +60,8 @@ public:
 
 private:
 	vector<double> m_UxB_x, m_UxB_y, m_UxB_z;
+	DATA *m_data;
+	PETSc *m_petsc;
 };
 
 } /* namespace std */
