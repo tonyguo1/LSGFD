@@ -24,7 +24,7 @@ public:
 	//! The method to solve elliptic problem
 	virtual void Solve();
 	//! The method for setting Matrix
-	virtual void SetMatrix(const vector<vector<int> > &neighbour_list,
+	void SetMatrix(const vector<vector<int> > &neighbour_list,
 				           const vector<vector<double> > &coefficient_laplacian,
 			               const vector<vector<double> > &coefficient_dudx,
 			               const vector<vector<double> > &coefficient_dudy,
@@ -53,9 +53,9 @@ public:
                      const vector<double> &normal_x,
                      const vector<double> &normal_y,
                      const vector<double> &normal_z,
-                     const vector<double> &Jx,
-                     const vector<double> &Jy,
-                     const vector<double> &Jz,
+                     vector<double> &Jx,
+                     vector<double> &Jy,
+                     vector<double> &Jz,
                      const vector<double> &Phi);
 
 private:

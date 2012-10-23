@@ -13,6 +13,7 @@
 
 #include "TimeIntegratorBase.h"
 #include <vector>
+#include <Solver.h>
 namespace std {
 
 class Verlet_Scheme: public std::Time_Integrator_Base {

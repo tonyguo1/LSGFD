@@ -15,8 +15,8 @@
 
 #ifndef ELLIPTICSOLVERBASE_H_
 #define ELLIPTICSOLVERBASE_H_
-#include <DATA.h>
-#include <solver.h>
+#include "DATA.h"
+#include "solver_petsc.h"
 
 namespace std {
 
@@ -26,13 +26,12 @@ public:
 	/*!
 	 *  The basic one
 	 */
-	Elliptic_Solver_Base(DATA *data);
+	Elliptic_Solver_Base();
 	//! Basic destructor
 	virtual ~Elliptic_Solver_Base();
 	//! The method to solve elliptic problem
 	virtual void Solve(){};
 	//! The method for setting Matrix
-	virtual void SetMatrix(){};
 };
 
 } /* namespace std */

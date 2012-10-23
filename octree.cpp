@@ -15,6 +15,7 @@
 #include <numeric> 
 #include <fstream>
 #include <vector>
+#include <math.h>
 inline bool is_node_intersect_search_region(const double min_x,
                                             const double max_x,
                                             const double min_y,

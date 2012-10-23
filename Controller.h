@@ -12,8 +12,7 @@
 #ifndef CONTROLLER_H_
 #define CONTROLLER_H_
 #include "DATA.h"
-#include "VerletScheme.cpp"
-#include "TimeIntegrator.h"
+#include "VerletScheme.h"
 namespace std {
 
 class Controller {

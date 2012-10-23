@@ -12,6 +12,8 @@ namespace std {
 Controller::Controller():m_time(0),m_dt(0),m_step(0),m_i_output(0),m_nprint(0),m_max_step(0),m_max_time(0),m_next_print_time(0){
 	// TODO Auto-generated constructor stub
 	m_time_integrator = NULL;
+	Initialization();
+	m_time_integrator = new Verlet_Scheme(&m_data);
 }
 
 Controller::~Controller() {
@@ -33,10 +35,10 @@ void Controller::Start(){
 		m_step++;
 		m_time_integrator->Integrate(m_dt);
 		if (m_i_output)
-			m_data.Print(m_time);
+			m_data.Print(m_time, m_step, "vtkoutput");
 	}
-	if (time < m_max_time)
-		m_data.Print(m_time);
+	if (m_time < m_max_time)
+		m_data.Print(m_time, m_step, "vtkoutput");
 }
 
 double Controller::Get_dt(){

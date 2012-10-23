@@ -12,6 +12,8 @@
 #define COMPRESSIBLESOLVER_H_
 
 #include "HyperbolicSolverBase.h"
+#include <vector>
+#include "DATA.h"
 
 namespace std {
 

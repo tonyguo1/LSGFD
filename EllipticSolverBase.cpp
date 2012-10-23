@@ -9,7 +9,7 @@
 
 namespace std {
 
-Elliptic_Solver_Base::Elliptic_Solver_Base(DATA *data):m_data(data) {
+Elliptic_Solver_Base::Elliptic_Solver_Base() {
 	// TODO Auto-generated constructor stub
 }
 

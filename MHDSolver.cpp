@@ -11,14 +11,14 @@ namespace std {
 
 MHD_Solver::MHD_Solver(DATA *data):m_data(data) {
 	// TODO Auto-generated constructor stub
-	m_petsc = NULL:
+	m_petsc = NULL;
 }
 
 MHD_Solver::~MHD_Solver() {
 	// TODO Auto-generated destructor stub
 }
 
-virtual void MHD_Solver::Solve(){
+void MHD_Solver::Solve(){
 	PETSc petsc;
 	m_petsc = &petsc;
 	int num_of_par = m_data->Get_num_of_par();
@@ -63,7 +63,7 @@ virtual void MHD_Solver::Solve(){
 		      	m_data->Get_Phi());
 }
 
-virtual void MHD_Solver::SetMatrix(const vector<vector<int> > &neighbour_list,
+void MHD_Solver::SetMatrix(const vector<vector<int> > &neighbour_list,
 		                           const vector<vector<double> > &coefficient_laplacian,
 		                           const vector<vector<double> > &coefficient_dudx,
 		                           const vector<vector<double> > &coefficient_dudy,
@@ -82,7 +82,6 @@ virtual void MHD_Solver::SetMatrix(const vector<vector<int> > &neighbour_list,
 		double rhs = 0;
 		if (m_data->Get_Boundary_Flag(index) == 1){
 			for (int i_neigh = 0; i_neigh < num_neigh; i_neigh++){
-				int index1 = neighbour_list[index][i_neigh];
 				double value = coefficient_laplacian_boundary[boundary_index][i_neigh];
 				value = value - coefficient_laplacian_boundary[boundary_index][num_neigh] *
 				(normal_x[index] * coefficient_dudx_boundary[boundary_index][i_neigh] + normal_y[index] * coefficient_dudy_boundary[boundary_index][i_neigh] + normal_z[index] * coefficient_dudz_boundary[boundary_index][i_neigh]) /
@@ -140,9 +139,9 @@ void MHD_Solver::Calculate_J(const vector<vector<int> > &neighbour_list,
                              const vector<double> &normal_x,
                              const vector<double> &normal_y,
                              const vector<double> &normal_z,
-                             const vector<double> &Jx,
-                             const vector<double> &Jy,
-                             const vector<double> &Jz,
+                             vector<double> &Jx,
+                             vector<double> &Jy,
+                             vector<double> &Jz,
                              const vector<double> &Phi){
 	double m_fluidConductivity = 1e13;
 	int boundary_index = 0;
@@ -159,7 +158,7 @@ void MHD_Solver::Calculate_J(const vector<vector<int> > &neighbour_list,
 				Jx[index] += coefficient_dudx_boundary[boundary_index][i_neigh] * Phi[index1];
 				Jy[index] += coefficient_dudy_boundary[boundary_index][i_neigh] * Phi[index1];
 				Jz[index] += coefficient_dudz_boundary[boundary_index][i_neigh] * Phi[index1];
-				ghost -= (normal_x[index] * coefficient_dudx_boundary[boundary_index][i_neigh] + normal_y[index] * coefficient_dudy_boundary[boundary_index][i_neigh] + normal_z[index] * coefficient_dudz_boundary[boundary_index][i_neigh]) * Phi(index1) /
+				ghost -= (normal_x[index] * coefficient_dudx_boundary[boundary_index][i_neigh] + normal_y[index] * coefficient_dudy_boundary[boundary_index][i_neigh] + normal_z[index] * coefficient_dudz_boundary[boundary_index][i_neigh]) * Phi[index1] /
 						 (normal_x[index] * coefficient_dudx_boundary[boundary_index][num_neigh] + normal_y[index] * coefficient_dudy_boundary[boundary_index][num_neigh] + normal_z[index] * coefficient_dudz_boundary[boundary_index][num_neigh]);
 			}
 			Jx[index] += coefficient_dudx_boundary[boundary_index][num_neigh] * ghost;

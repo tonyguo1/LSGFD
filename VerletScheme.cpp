@@ -9,7 +9,7 @@
 
 namespace std {
 
-Verlet_Scheme::Verlet_Scheme(DATA *data):m_data(data) {
+Verlet_Scheme::Verlet_Scheme(DATA *data):m_data(data),m_dt(0.005) {
 	Init();
 }
 

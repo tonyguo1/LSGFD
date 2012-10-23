@@ -48,7 +48,8 @@ public:
 	 *  \param coeff3 input/output the coefficients for dudz
 	 */
 	void GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, vector<double> &coeff2, vector<double> &coeff3, vector<double> &coeff4);
-	void Print(double t);
+	const char* right_flush(int n, int ndigits);
+	void Print(const double t, const int step, const char* outputname);
 	
 public:
 	//! Utilities

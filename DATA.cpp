@@ -7,7 +7,7 @@
 
 #include "DATA.h"
 #include "octree.h"
-
+#include <math.h>
 namespace std {
 
 DATA::DATA() {
@@ -17,7 +17,6 @@ DATA::DATA() {
 	m_distance = 0;
 	m_max_step = 0;
 	m_max_time = 0;
-
 	// TODO Auto-generated constructor stub
 
 }
@@ -31,28 +30,29 @@ void DATA::Initialization(){
 	//! Lower bound and upper bound
 	double L[3] = {-0.5, -0.5, -8};
 	double U[3] = {0.5, 0.5, 0};
-	double cen[3] = {0, 0, -4}, R = 0.5, L = 3.5, dist = 0;
-	double dh = 0.05;
+	double cen[3] = {0, 0, -4}, R = 0.5, length = 3.5, dist = 0;
+	double dh = 0.05, xr, yr, zr;
 	int num_par_x, num_par_y, num_par_z;
-	for (int i = 0; i < 3; i++)
-		num_par_x = static_cast<int>((U[i] - L[i])/dh + 1e-7) + 1;
+	num_par_x = static_cast<int>((U[0] - L[0])/dh + 1e-7) + 1;
+        num_par_y = static_cast<int>((U[1] - L[1])/dh + 1e-7) + 1;
+        num_par_z = static_cast<int>((U[2] - L[2])/dh + 1e-7) + 1;
 	for (int i = 0; i <= num_par_x; i++)
-		for (int j = 0; j <= num_par_x; j++)
-			for (int k = 0; k <= num_par_x; k++){
+		for (int j = 0; j <= num_par_y; j++)
+			for (int k = 0; k <= num_par_z; k++){
 				double x = L[0] + i * dh, y = L[1] + j * dh, z = L[2] + k * dh;
 				xr = x - cen[0];
 				yr = y - cen[1];
 				zr = z - cen[2];
-				if (zr > L){
-					dist = xr * xr + yr * yr + (zr - L) * (zr - L);
+				if (zr > length){
+					dist = xr * xr + yr * yr + (zr - length) * (zr - length);
 					dist = sqrt(dist) - R;
 				}
-				else if (zr > -L){
+				else if (zr > -length){
 					dist = xr * xr + yr * yr;
 					dist = sqrt(dist) - R;
 				}
 				else{
-					dist = xr * xr + yr * yr + (zr - L) * (zr + L);
+					dist = xr * xr + yr * yr + (zr - length) * (zr + length);
 					dist = sqrt(dist) - R;
 				}
 				if (dist <= 0){
@@ -65,7 +65,7 @@ void DATA::Initialization(){
 					m_wp.push_back(0.21);
 					m_rho.push_back(13);
 					m_pressure.push_back(1000);
-					m_energy.push_back(eos->energy(13,1000));
+					//m_energy.push_back(eos->energy(13,1000));
 				}
 			}
 }
@@ -91,7 +91,7 @@ void DATA::Buildup_neigh_list_and_ceoff_list(const vector<double> &xp, const vec
 	for (int i_index = 0; i_index < num_of_par; i_index++){
 		/** Get the neighbour list*/
 		vector<int> *octree_search_result = new vector<int>;
-		vector<double> *octree_search_distance = new vector<int>;
+		vector<double> *octree_search_distance = new vector<double>;
 		int search_num = m_octree->searchNeighbor(xp[i_index], yp[i_index], zp[i_index], 2 * distance, octree_search_result, octree_search_distance );
 		neigh.push_back(i_index);
 		pair<double, int> pa;
@@ -169,7 +169,7 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 			angles[i] = acos(costheta);
 		}
 	}
-	double angle = min_element(angles,angles+30);
+	double angle = *(min_element(angles,angles+30));
 	//initialize A
 	double A[10][10];
 	for (int i = 1; i <= 9; i++)
@@ -197,7 +197,6 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 	for (int i = 1; i < 10; i++)
 		for (int j = 1; j <=i; j++)
 			l[i][j] = lapack_cf.Get_L(i-1,j-1);
-	delete lapack_cf;
 	//build M
 	double M[10][10];
 	double c[10] = {0};
@@ -256,7 +255,7 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 	m_coefficient_dudz[neigh[0]] = coeff4;
 
 	// Calculating coefficients with ghost particle
-	if (angles < PI / 4){
+	if (angle < PI / 4){
 		m_Boundary_Flag[neigh[0]] = 1;
 		n++;
 		h[n] = normal[0] / (n-1);
@@ -285,7 +284,6 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 		for (int i = 1; i < 10; i++)
 			for (int j = 1; j <=i; j++)
 				l[i][j] = lapack_cf.Get_L(i-1,j-1);
-		delete lapack_cf;
 		//build M
 		for (int i = 1; i < 10; i++)
 			c[i] = 0;
@@ -345,6 +343,47 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 	}
 }
 
+const char* DATA::right_flush(
+		int	   n,
+		int	   ndigits)
+{
+	static	char	s[20];
+	int		i;
+
+	if (n == 0)
+		ndigits--;
+	for (i = n; i > 0; i /= 10) ndigits--;
+
+	s[0] = '\0';
+	for (;ndigits > 0; ndigits--)
+		(void) sprintf(s,"%s0",s);
+	(void) sprintf(s,"%s%d",s,n);
+	return s;
+}
+
+void DATA::Print(const double t, const int step, const char* outputname){
+	size_t i;
+	char filename[200];
+	FILE *outfile;
+	sprintf(filename,"vtkoutput_%s",right_flush(step,7));
+	sprintf(filename,"%s_%s",filename,outputname);
+	//if (PN * PM * PL != 1)
+	//	sprintf(filename,"%s-nd%s",filename,right_flush(id,4));
+	sprintf(filename,"%s.vtk",filename);
+	outfile = fopen(filename,"w");
+	fprintf(outfile,"# vtk DataFile Version 3.0\n");
+	fprintf(outfile,"The actual time is %.8f\n",t);
+	fprintf(outfile,"ASCII\n");
+	fprintf(outfile,"DATASET POLYDATA\n");
+	fprintf(outfile,"POINTS %lu double\n",m_num_of_par);
+	for (i = 0; i < m_num_of_par; i++)
+		fprintf(outfile,"%.16g %.16g %.16g\n",m_xp[i],m_yp[i],m_zp[i]);
+	fprintf(outfile,"POINT_DATA %d\n",m_num_of_par);
+	fprintf(outfile,"VECTORS Current double\n");
+	for (i = 0; i < m_num_of_par; i++)
+		fprintf(outfile,"%.16g %.16g %.16g\n",m_Jx[i],m_Jy[i],m_Jz[i]);
+}
+
 void DATA::Cross_Product(const vector<double> &vec1, const vector<double> &vec2, vector<double> &rslt){
 	rslt[0] = vec1[1] * vec2[2] - vec1[2] * vec2[1];
 	rslt[1] = vec1[2] * vec2[0] - vec1[0] * vec2[2];
@@ -355,5 +394,9 @@ void DATA::Get_MagneticFiled(const double x, const double y, const double z, vec
 	B[0] = 14.1 * sqrt(0.5*(1.0 - tanh((z - 1.5)/0.62)));
 	B[1] = 0;
 	B[2] = 0;
+}
+
+double DATA::Get_dt(){
+	return 0.005;
 }
 } /* namespace std */

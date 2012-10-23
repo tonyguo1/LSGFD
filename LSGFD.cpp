@@ -8,8 +8,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "Controller.h"
+using namespace std;
 int main(void) {
-	puts("Hello World");
-	return EXIT_SUCCESS;
+	Controller control;
+	control.Start();
+	return 0;
 }

@@ -19,7 +19,7 @@ public:
 	//! Constructor with time step
 	Time_Integrator_Base();
 	virtual ~Time_Integrator_Base();
-	virtual void Integrate(double dt) = 0;
+	virtual void Integrate(const double &dt)=0;
 };
 
 } /* namespace std */

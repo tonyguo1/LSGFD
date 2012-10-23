@@ -18,4 +18,8 @@ Compressible_Solver::~Compressible_Solver() {
 	// TODO Auto-generated destructor stub
 }
 
+void Compressible_Solver::Solve(){
+	
+}
+
 } /* namespace std */
