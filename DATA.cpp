@@ -26,6 +26,50 @@ DATA::~DATA() {
 	// TODO Auto-generated destructor stub
 }
 
+void DATA::Initialization(){
+	/** For testing run, hard coded initialization**/
+	//! Lower bound and upper bound
+	double L[3] = {-0.5, -0.5, -8};
+	double U[3] = {0.5, 0.5, 0};
+	double cen[3] = {0, 0, -4}, R = 0.5, L = 3.5, dist = 0;
+	double dh = 0.05;
+	int num_par_x, num_par_y, num_par_z;
+	for (int i = 0; i < 3; i++)
+		num_par_x = static_cast<int>((U[i] - L[i])/dh + 1e-7) + 1;
+	for (int i = 0; i <= num_par_x; i++)
+		for (int j = 0; j <= num_par_x; j++)
+			for (int k = 0; k <= num_par_x; k++){
+				double x = L[0] + i * dh, y = L[1] + j * dh, z = L[2] + k * dh;
+				xr = x - cen[0];
+				yr = y - cen[1];
+				zr = z - cen[2];
+				if (zr > L){
+					dist = xr * xr + yr * yr + (zr - L) * (zr - L);
+					dist = sqrt(dist) - R;
+				}
+				else if (zr > -L){
+					dist = xr * xr + yr * yr;
+					dist = sqrt(dist) - R;
+				}
+				else{
+					dist = xr * xr + yr * yr + (zr - L) * (zr + L);
+					dist = sqrt(dist) - R;
+				}
+				if (dist <= 0){
+					//! Inside computational domain
+					m_xp.push_back(x);
+					m_yp.push_back(y);
+					m_zp.push_back(z);
+					m_up.push_back(0.21);
+					m_vp.push_back(0.21);
+					m_wp.push_back(0.21);
+					m_rho.push_back(13);
+					m_pressure.push_back(1000);
+					m_energy.push_back(eos->energy(13,1000));
+				}
+			}
+}
+
 void DATA::Buildup_neigh_list_and_ceoff_list(const vector<double> &xp, const vector<double> &yp, const vector<double> &zp, const double &distance, const int num_of_par){
 	int N = num_of_par;
 	/** 5 is optimum for search */
