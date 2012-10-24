@@ -6,6 +6,7 @@
  */
 
 #include "MHDSolver.h"
+#include <assert.h>
 
 namespace std {
 
@@ -24,6 +25,7 @@ void MHD_Solver::Solve(){
 	int num_of_par = m_data->Get_num_of_par();
 	m_petsc->Create(0, num_of_par - 1, 30, 0);
 	m_petsc->SetTol(1e-15);
+	Initializae_UxB();
 	SetMatrix(m_data->Get_neighbour_list(),
 			  m_data->Get_coefficient_laplacian(),
 			  m_data->Get_coefficient_dudx(),
@@ -36,6 +38,8 @@ void MHD_Solver::Solve(){
 			  m_data->Get_normal_x(),
 			  m_data->Get_normal_y(),
 			  m_data->Get_normal_z());
+	//m_petsc->Print_A(NULL);
+	//m_petsc->Print_b(NULL);
 	m_petsc->Solve_withPureNeumann_GMRES();
 	int iter;
 	double residual;
@@ -86,7 +90,7 @@ void MHD_Solver::SetMatrix(const vector<vector<int> > &neighbour_list,
 				value = value - coefficient_laplacian_boundary[boundary_index][num_neigh] *
 				(normal_x[index] * coefficient_dudx_boundary[boundary_index][i_neigh] + normal_y[index] * coefficient_dudy_boundary[boundary_index][i_neigh] + normal_z[index] * coefficient_dudz_boundary[boundary_index][i_neigh]) /
 				(normal_x[index] * coefficient_dudx_boundary[boundary_index][num_neigh] + normal_y[index] * coefficient_dudy_boundary[boundary_index][num_neigh] + normal_z[index] * coefficient_dudz_boundary[boundary_index][num_neigh]);
-				m_petsc->Add_A(index, i_neigh, value);
+				m_petsc->Add_A(index, neighbour_list[index][i_neigh], value);
 				rhs += coefficient_dudx[index][i_neigh] * m_UxB_x[index] + coefficient_dudy[index][i_neigh] * m_UxB_y[index] + coefficient_dudz[index][i_neigh] * m_UxB_z[index];
 			}
 			double value =  normal_x[index] * m_UxB_x[index] + normal_y[index] * m_UxB_y[index] + normal_z[index] * m_UxB_z[index];
@@ -100,7 +104,7 @@ void MHD_Solver::SetMatrix(const vector<vector<int> > &neighbour_list,
 			double rhs = 0;
 			for (int i_neigh = 0; i_neigh < num_neigh; i_neigh++){
 				double value = coefficient_laplacian[index][i_neigh];
-				m_petsc->Add_A(index, i_neigh, value);
+				m_petsc->Add_A(index, neighbour_list[index][i_neigh], value);
 				rhs += coefficient_dudx[index][i_neigh] * m_UxB_x[index] + coefficient_dudy[index][i_neigh] * m_UxB_y[index] + coefficient_dudz[index][i_neigh] * m_UxB_z[index];
 			}
 			m_petsc->Add_b(index, rhs);

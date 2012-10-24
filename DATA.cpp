@@ -61,8 +61,8 @@ void DATA::Initialization(){
 					m_xp.push_back(x);
 					m_yp.push_back(y);
 					m_zp.push_back(z);
-					m_up.push_back(0.21);
-					m_vp.push_back(0.21);
+					m_up.push_back(0);
+					m_vp.push_back(0);
 					m_wp.push_back(0.21);
 					m_rho.push_back(13);
 					m_pressure.push_back(1000);
@@ -99,9 +99,9 @@ void DATA::Buildup_neigh_list_and_ceoff_list(const vector<double> &xp, const vec
 		pair<double, int> pa;
 		vector<pair<double, int> > vecs;
 		vector<int>::iterator it_r = octree_search_result.begin();
-		vector<double>::iterator it_d = octree_search_distance.end();
+		vector<double>::iterator it_d = octree_search_distance.begin();
 		for (int i = 0; i < search_num; i++){
-			pa.first = *it_d;
+		        pa.first = fabs(*it_d);
 			pa.second = *it_r;
 			vecs.push_back(pa);
 			it_r++;
@@ -121,6 +121,10 @@ void DATA::Buildup_neigh_list_and_ceoff_list(const vector<double> &xp, const vec
 		/** Get the coefficients*/
 		GetLSCoefficient(neigh, coeff1, coeff2,coeff3,coeff4);
 		neigh.clear();
+		coeff1.assign(30,0);
+		coeff2.assign(30,0);
+		coeff3.assign(30,0);
+		coeff4.assign(30,0);
 	}
 }
 
@@ -175,7 +179,7 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 	for (int i = 1; i <= n; i++){
 		double dot = (h[i] * normal[0] + k[i] * normal[1] + g[i] * normal[2]);
 		double length1 = sqrt(h[i] * h[i] + k[i] * k[i] + g[i] * g[i]);
-		if (length2 < 1e-15)
+		if (length2 < 0.2 * m_distance)
 			angles[i] = 0;
 		else{
 			double costheta  = dot / (length1 * length2);
@@ -229,8 +233,8 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 				M[i][j] = 1 / l[i][i];
 			else if (j < i){
 				double sum = 0;
-				for (int k = j; k <= i - 1; k++){
-					sum += l[i][k] * M[k][j];
+				for (int kk = j; kk <= i - 1; kk++){
+					sum += l[i][kk] * M[kk][j];
 				}
 				M[i][j] = -1 * sum / l[i][i];
 			}
@@ -269,12 +273,12 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 	m_coefficient_dudz[neigh[0]].assign(coeff4.begin(),coeff4.end());
 
 	// Calculating coefficients with ghost particle
-	if (angle > PI / 4){
+	if (angle > PI / 3 - 0.00001){
 		m_Boundary_Flag[neigh[0]] = 1;
 		n++;
-		h[n] = normal[0] / (n-1);
-		k[n] = normal[1] / (n-1);
-		g[n] = normal[2] / (n-1);
+		h[n] = normal[0];
+		k[n] = normal[1];
+		g[n] = normal[2];
 
 		//initialize A
 		for (int i = 1; i <= 9; i++)
@@ -315,8 +319,8 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 					M[i][j] = 1 / l[i][i];
 				else if (j < i){
 					double sum = 0;
-					for (int k = j; k <= i - 1; k++){
-						sum += l[i][k] * M[k][j];
+					for (int kk = j; kk <= i - 1; kk++){
+						sum += l[i][kk] * M[kk][j];
 					}
 					M[i][j] = -1 * sum / l[i][i];
 				}
@@ -376,11 +380,11 @@ const char* DATA::right_flush(
 }
 
 void DATA::Print(const double t, const int step, const char* outputname){
-	size_t i;
+	int i;
 	char filename[200];
 	FILE *outfile;
 	sprintf(filename,"vtkoutput_%s",right_flush(step,7));
-	sprintf(filename,"%s_%s",filename,outputname);
+	//sprintf(filename,"%s_%s",filename,outputname);
 	//if (PN * PM * PL != 1)
 	//	sprintf(filename,"%s-nd%s",filename,right_flush(id,4));
 	sprintf(filename,"%s.vtk",filename);
@@ -389,13 +393,17 @@ void DATA::Print(const double t, const int step, const char* outputname){
 	fprintf(outfile,"The actual time is %.8f\n",t);
 	fprintf(outfile,"ASCII\n");
 	fprintf(outfile,"DATASET POLYDATA\n");
-	fprintf(outfile,"POINTS %lu double\n",m_num_of_par);
+	fprintf(outfile,"POINTS %d double\n",m_num_of_par);
 	for (i = 0; i < m_num_of_par; i++)
 		fprintf(outfile,"%.16g %.16g %.16g\n",m_xp[i],m_yp[i],m_zp[i]);
 	fprintf(outfile,"POINT_DATA %d\n",m_num_of_par);
 	fprintf(outfile,"VECTORS Current double\n");
 	for (i = 0; i < m_num_of_par; i++)
-		fprintf(outfile,"%.16g %.16g %.16g\n",m_up[i],m_vp[i],m_wp[i]);
+		fprintf(outfile,"%.16g %.16g %.16g\n",m_Jx[i],m_Jy[i],m_Jz[i]);
+	fprintf(outfile,"SCALARS Type integer\n");
+	fprintf(outfile,"LOOKUP_TABLE default\n");
+	for (i = 0; i < m_num_of_par; i++)
+		fprintf(outfile,"%d\n",m_Boundary_Flag[i]);
 	fclose(outfile);
 }
 
@@ -419,7 +427,7 @@ void DATA::Print_angle(){
 	FILE *fp;
 	fp = fopen("angle.dat","w+");
 	for (int i = 0; i < m_num_of_par; i++)
-		fprintf(fp,"%d %lf\n", i, m_angle[i]);
+		fprintf(fp,"%d %f\n", i, m_angle[i]);
 	fclose(fp);
 }
 } /* namespace std */

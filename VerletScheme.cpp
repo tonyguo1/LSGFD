@@ -6,7 +6,7 @@
  */
 
 #include "VerletScheme.h"
-
+#include "assert.h"
 namespace std {
 
 Verlet_Scheme::Verlet_Scheme(DATA *data):m_data(data),m_dt(0.005) {
@@ -32,6 +32,8 @@ void Verlet_Scheme::Init(){
 
 void Verlet_Scheme::Integrate(const double &dt){
 	m_ES->Solve();
+	m_data->Print(0,0,NULL);
+	assert(0);
 	m_HS->Set_dt(dt);
 	m_HS->Solve();
 }

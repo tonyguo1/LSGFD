@@ -6,6 +6,7 @@
  */
 
 #include "Controller.h"
+#include <assert.h>
 
 namespace std {
 
@@ -22,7 +23,7 @@ Controller::~Controller() {
 
 void Controller::Initialization(){
 	m_data.Initialization();
-	m_data.Print(0,0,"vtkoutput");
+	// m_data.Print(0,0,"vtkoutput");
     //! Initialization for time integrator
 }
 
@@ -34,8 +35,7 @@ void Controller::Start(){
 		m_time += m_dt;
 		m_step++;
 		m_data.Clear_neigh_list_and_ceoff_list();
-		m_data.Buildup_neigh_list_and_ceoff_list(m_data.Get_x(), m_data.Get_y(), m_data.Get_z(), 2 * m_data.Get_distance(), m_data.Get_num_of_par());
-		m_data.Print_angle();
+		m_data.Buildup_neigh_list_and_ceoff_list(m_data.Get_x(), m_data.Get_y(), m_data.Get_z(), 3 * m_data.Get_distance(), m_data.Get_num_of_par());
 		m_time_integrator->Integrate(m_dt);
 		if (m_i_output)
 			m_data.Print(m_time, m_step, "vtkoutput");
