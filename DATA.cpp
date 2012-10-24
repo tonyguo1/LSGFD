@@ -194,8 +194,7 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 		for (int j = 1; j <= 9; j++)
 			A[i][j] = 0;
 	for (int index = 1; index <= n; index++){
-		double a[10] = {0,h[index],k[index],g[index],0.5*h[index]*h[index],0.5*k[index]*k[index],0.5*g[index]*g[index],
-				h[index]*k[index],h[index]*g[index],k[index]*g[index]};
+		double a[10] = {0,h[index],k[index],g[index],0.5*h[index]*h[index],0.5*k[index]*k[index],0.5*g[index]*g[index],h[index]*k[index],h[index]*g[index],k[index]*g[index]};
 		for (int i = 1; i <= 9; i++)
 			for (int j = 1; j <= 9; j++)
 				A[i][j] += a[i] * a[j];
