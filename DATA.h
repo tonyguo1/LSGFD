@@ -73,6 +73,8 @@ public:
 	//! The method to fetch number of particles
 	int Get_num_of_par() {return m_num_of_par;}
 	int Get_num_of_boundary_par() {return m_num_of_boundary_par;}
+	//! The method to fetch initial grid size
+	double Get_distance() {return m_distance;}
 	//! The mothod to fetch phi
 	vector<double>& Get_Phi() {return m_phi;}
 	//! The method to fetch J
@@ -119,6 +121,8 @@ public:
 	double Get_max_time() {return m_max_time;}
 	int Get_max_step() {return m_max_step;}
 
+	//! For debug
+	void Print_angle();
 
 
 private:
@@ -162,6 +166,9 @@ private:
     //! setting related data
     double m_max_time;
     int m_max_step;
+    
+    //! for debug
+    vector<double> m_angle;
 };
 
 } /* namespace std */

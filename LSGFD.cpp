@@ -3,14 +3,13 @@
 // Author      : Tongfei Guo
 // Version     :
 // Copyright   : Your copyright notice
-// Description : Hello World in C, Ansi-style
 //============================================================================
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <iostream>
 #include "Controller.h"
 using namespace std;
-int main(void) {
+int main(int argc, char *argv[]) {
+	PetscInitialize(&argc,&argv,NULL,NULL);
 	Controller control;
 	control.Start();
 	return 0;

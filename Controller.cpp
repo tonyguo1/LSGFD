@@ -9,7 +9,7 @@
 
 namespace std {
 
-Controller::Controller():m_time(0),m_dt(0),m_step(0),m_i_output(0),m_nprint(0),m_max_step(0),m_max_time(0),m_next_print_time(0){
+Controller::Controller():m_time(0),m_dt(0),m_step(0),m_i_output(0),m_nprint(0),m_max_step(1000),m_max_time(10),m_next_print_time(0),m_print_interval(2){
 	// TODO Auto-generated constructor stub
 	m_time_integrator = NULL;
 	Initialization();
@@ -22,17 +22,20 @@ Controller::~Controller() {
 
 void Controller::Initialization(){
 	m_data.Initialization();
+	m_data.Print(0,0,"vtkoutput");
     //! Initialization for time integrator
 }
 
 void Controller::Start(){
-	Initialization();
 	while (m_time < m_max_time && m_step < m_max_step)
 	{
 		//! Get dt according to states and print time
 		m_dt = Get_dt();
 		m_time += m_dt;
 		m_step++;
+		m_data.Clear_neigh_list_and_ceoff_list();
+		m_data.Buildup_neigh_list_and_ceoff_list(m_data.Get_x(), m_data.Get_y(), m_data.Get_z(), 2 * m_data.Get_distance(), m_data.Get_num_of_par());
+		m_data.Print_angle();
 		m_time_integrator->Integrate(m_dt);
 		if (m_i_output)
 			m_data.Print(m_time, m_step, "vtkoutput");
@@ -43,7 +46,7 @@ void Controller::Start(){
 
 double Controller::Get_dt(){
 	double dt = m_data.Get_dt();
-	while (m_step == 1 && m_next_print_time - m_time < dt)
+	while (m_step == 0 && m_next_print_time - m_time < dt)
 		m_next_print_time += m_print_interval;
 	if (m_time + dt >= m_next_print_time && m_time + dt < m_max_time)
 	{

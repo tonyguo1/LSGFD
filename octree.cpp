@@ -89,7 +89,9 @@ Octree::Octree(const std::vector<double> &xp,
                const std::vector<double> &yp,
                const std::vector<double> &zp,
                int treedepth, 
-               int numOfParticles) :m_vCoordX(xp), m_vCoordY(yp), m_vCoordZ(zp), m_iTotalNumberOfParticles(numOfParticles), m_iMaxDepth(treedepth) {}
+               int numOfParticles) :m_vCoordX(xp), m_vCoordY(yp), m_vCoordZ(zp), m_iTotalNumberOfParticles(numOfParticles), m_iMaxDepth(treedepth) {
+	buildOctree();
+}
 
 
 int Octree::buildOctree() {
