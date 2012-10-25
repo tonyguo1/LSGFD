@@ -28,9 +28,9 @@ DATA::~DATA() {
 void DATA::Initialization(){
 	/** For testing run, hard coded initialization**/
 	//! Lower bound and upper bound
-	double L[3] = {-0.5, -0.5, -8};
+	double L[3] = {-0.5, -0.5, -2};
 	double U[3] = {0.5, 0.5, 0};
-	double cen[3] = {0, 0, -4}, R = 0.5, length = 3.5, dist = 0;
+	double cen[3] = {0, 0, -1}, R = 0.5, length = 0.5, dist = 0;
 	m_distance = 0.1; 
 	double xr, yr, zr;
 	int num_par_x, num_par_y, num_par_z;
@@ -273,6 +273,10 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 
 	// Calculating coefficients with ghost particle
 	if (angle > PI / 3 - 0.00001){
+		coeff1.assign(30,0);
+		coeff2.assign(30,0);
+		coeff3.assign(30,0);
+		coeff4.assign(30,0);
 		m_Boundary_Flag[neigh[0]] = 1;
 		n++;
 		h[n] = normal[0];
@@ -403,6 +407,29 @@ void DATA::Print(const double t, const int step, const char* outputname){
 	fprintf(outfile,"LOOKUP_TABLE default\n");
 	for (i = 0; i < m_num_of_par; i++)
 		fprintf(outfile,"%d\n",m_Boundary_Flag[i]);
+	fclose(outfile);
+}
+
+void DATA::Print_vector(const vector<double> &vx, const vector<double> &vy, const vector<double> &vz, const char* outputname){
+	int i;
+	char filename[200];
+	FILE *outfile;
+	sprintf(filename,"vtkoutput_%s",filename,outputname);
+	//if (PN * PM * PL != 1)
+	//	sprintf(filename,"%s-nd%s",filename,right_flush(id,4));
+	sprintf(filename,"%s.vtk",filename);
+	outfile = fopen(filename,"w");
+	fprintf(outfile,"# vtk DataFile Version 3.0\n");
+	fprintf(outfile,"The actual time is %.8f\n",0);
+	fprintf(outfile,"ASCII\n");
+	fprintf(outfile,"DATASET POLYDATA\n");
+	fprintf(outfile,"POINTS %d double\n",m_num_of_par);
+	for (i = 0; i < m_num_of_par; i++)
+		fprintf(outfile,"%.16g %.16g %.16g\n",m_xp[i],m_yp[i],m_zp[i]);
+	fprintf(outfile,"POINT_DATA %d\n",m_num_of_par);
+	fprintf(outfile,"VECTORS vec double\n");
+	for (i = 0; i < m_num_of_par; i++)
+		fprintf(outfile,"%.16g %.16g %.16g\n",vx[i],vy[i],vz[i]);
 	fclose(outfile);
 }
 

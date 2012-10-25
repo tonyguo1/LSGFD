@@ -38,8 +38,9 @@ void MHD_Solver::Solve(){
 			  m_data->Get_normal_x(),
 			  m_data->Get_normal_y(),
 			  m_data->Get_normal_z());
-	//m_petsc->Print_A(NULL);
-	//m_petsc->Print_b(NULL);
+	m_petsc->Print_A(NULL);
+	m_petsc->Print_b(NULL);
+	assert(0);
 	m_petsc->Solve_withPureNeumann_GMRES();
 	int iter;
 	double residual;
