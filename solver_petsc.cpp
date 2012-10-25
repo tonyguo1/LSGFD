@@ -51,7 +51,7 @@ void PETSc::Create(
 	iLower	= ilower;	
 	iUpper 	= iupper;	
 	
-	MatCreateAIJ(PETSC_COMM_WORLD,n,n,PETSC_DECIDE,PETSC_DECIDE,
+	MatCreateMPIAIJ(PETSC_COMM_WORLD,n,n,PETSC_DECIDE,PETSC_DECIDE,
 				d_nz,PETSC_NULL,o_nz,PETSC_NULL,&A);	
 	ierr = PetscObjectSetName((PetscObject) A, "A");
 	ierr = MatSetFromOptions(A);		
@@ -374,49 +374,49 @@ void PETSc::Solve_withPureNeumann_LSQR(void)
   	
   	ierr = VecAssemblyBegin(x);
   	ierr = VecAssemblyEnd(x);
-  	
+
   	ierr = VecAssemblyBegin(b);
   	ierr = VecAssemblyEnd(b);
-  	
-	
-	MatNullSpaceCreate(PETSC_COMM_WORLD,PETSC_TRUE,0,PETSC_NULL,&nullsp);
-        KSPSetNullSpace(ksp,nullsp);
-	MatNullSpaceRemove(nullsp,b,PETSC_NULL);
 
-	
-        KSPSetOperators(ksp,A,A,DIFFERENT_NONZERO_PATTERN);
-        
-	KSPSetType(ksp,KSPLSQR);
 
-	//KSPGetPC(ksp, &pc);
-	//PCSetType(pc, PCASM);
-        KSPSetFromOptions(ksp);
-        KSPSetUp(ksp);
-	//start_clock("Before Petsc Solve in pure neumann solver");
-        KSPSolve(ksp,b,x);
-	//stop_clock("After Petsc Solve in pure neumann solver");
+  	MatNullSpaceCreate(PETSC_COMM_WORLD,PETSC_TRUE,0,PETSC_NULL,&nullsp);
+  	KSPSetNullSpace(ksp,nullsp);
+  	MatNullSpaceRemove(nullsp,b,PETSC_NULL);
+
+
+  	KSPSetOperators(ksp,A,A,DIFFERENT_NONZERO_PATTERN);
+
+  	KSPSetType(ksp,KSPLSQR);
+
+  	//KSPGetPC(ksp, &pc);
+  	//PCSetType(pc, PCASM);
+  	KSPSetFromOptions(ksp);
+  	KSPSetUp(ksp);
+  	//start_clock("Before Petsc Solve in pure neumann solver");
+  	KSPSolve(ksp,b,x);
+  	//stop_clock("After Petsc Solve in pure neumann solver");
 }
 
 void PETSc::Print_A(const char *filename)
 {
-        ierr = MatAssemblyBegin(A,MAT_FINAL_ASSEMBLY);
-        ierr = MatAssemblyEnd(A,MAT_FINAL_ASSEMBLY);
-        PetscViewerSetFormat(PETSC_VIEWER_STDOUT_WORLD,PETSC_VIEWER_ASCII_MATLAB);
-        MatView(A, PETSC_VIEWER_STDOUT_WORLD);
+	ierr = MatAssemblyBegin(A,MAT_FINAL_ASSEMBLY);
+	ierr = MatAssemblyEnd(A,MAT_FINAL_ASSEMBLY);
+	PetscViewerSetFormat(PETSC_VIEWER_STDOUT_WORLD,PETSC_VIEWER_ASCII_MATLAB);
+	MatView(A, PETSC_VIEWER_STDOUT_WORLD);
 }
 
 void PETSc::Print_b(const char *filename)
 {
-        ierr = VecAssemblyBegin(b);
-        ierr = VecAssemblyEnd(b);
+	ierr = VecAssemblyBegin(b);
+	ierr = VecAssemblyEnd(b);
 	PetscViewerSetFormat(PETSC_VIEWER_STDOUT_WORLD,PETSC_VIEWER_ASCII_MATLAB);
-        VecView(b, PETSC_VIEWER_STDOUT_WORLD);
+	VecView(b, PETSC_VIEWER_STDOUT_WORLD);
 }
 
 void PETSc::Print_x(const char *filename)
 {
-        ierr = VecAssemblyBegin(x);
-        ierr = VecAssemblyEnd(x);
+	ierr = VecAssemblyBegin(x);
+	ierr = VecAssemblyEnd(x);
 	PetscViewerSetFormat(PETSC_VIEWER_STDOUT_WORLD,PETSC_VIEWER_ASCII_MATLAB);
-        VecView(x, PETSC_VIEWER_STDOUT_WORLD);
+	VecView(x, PETSC_VIEWER_STDOUT_WORLD);
 }

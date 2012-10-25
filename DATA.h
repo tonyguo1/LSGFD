@@ -81,8 +81,8 @@ public:
 	vector<double>& Get_Phi() {return m_phi;}
 	//! The method to fetch J
 	vector<double>& Get_Jx() {return m_Jx;}
-	vector<double>& Get_Jy() {return m_Jx;}
-	vector<double>& Get_Jz() {return m_Jx;}
+	vector<double>& Get_Jy() {return m_Jy;}
+	vector<double>& Get_Jz() {return m_Jz;}
 	//! The mothods to fetch position
 	vector<double>& Get_x() {return m_xp;}
 	double Get_x(int index) {return m_xp[index];}
@@ -108,7 +108,7 @@ public:
 	vector<vector<double> >& Get_coefficient_dudx() {return m_coefficient_dudx;}
 	vector<vector<double> >& Get_coefficient_dudx_boundary() {return m_coefficient_dudx_boundary;}
 	vector<vector<double> >& Get_coefficient_dudy() {return m_coefficient_dudy;}
-	vector<vector<double> >& Get_coefficient_dudy_boundary() {return m_coefficient_dudx_boundary;}
+	vector<vector<double> >& Get_coefficient_dudy_boundary() {return m_coefficient_dudy_boundary;}
 	vector<vector<double> >& Get_coefficient_dudz() {return m_coefficient_dudz;}
 	vector<vector<double> >& Get_coefficient_dudz_boundary() {return m_coefficient_dudz_boundary;}
 	//! The methods to fetch normal

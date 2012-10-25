@@ -28,19 +28,19 @@ DATA::~DATA() {
 void DATA::Initialization(){
 	/** For testing run, hard coded initialization**/
 	//! Lower bound and upper bound
-	double L[3] = {-0.5, -0.5, -2};
+	double L[3] = {-0.5, -0.5, -8};
 	double U[3] = {0.5, 0.5, 0};
-	double cen[3] = {0, 0, -1}, R = 0.5, length = 0.5, dist = 0;
+	double cen[3] = {0, 0, -4}, R = 0.5, length = 3.5, dist = 0;
 	m_distance = 0.1; 
 	double xr, yr, zr;
 	int num_par_x, num_par_y, num_par_z;
-	num_par_x = static_cast<int>((U[0] - L[0])/m_distance + 1e-7) + 1;
-	num_par_y = static_cast<int>((U[1] - L[1])/m_distance + 1e-7) + 1;
-	num_par_z = static_cast<int>((U[2] - L[2])/m_distance + 1e-7) + 1;
-	for (int i = 0; i < num_par_x; i++)
+	num_par_x = static_cast<int>((U[0] - L[0])/m_distance + 1e-7);
+	num_par_y = static_cast<int>((U[1] - L[1])/m_distance + 1e-7);
+	num_par_z = static_cast<int>((U[2] - L[2])/m_distance + 1e-7);
+	for (int k = 0; k < num_par_z; k++)
 		for (int j = 0; j < num_par_y; j++)
-			for (int k = 0; k < num_par_z; k++){
-				double x = L[0] + i * m_distance, y = L[1] + j * m_distance, z = L[2] + k * m_distance;
+			for (int i = 0; i < num_par_x; i++){
+				double x = L[0] + (i+0.5) * m_distance, y = L[1] + (j+0.5) * m_distance, z = L[2] + (k+0.5) * m_distance;
 				xr = x - cen[0];
 				yr = y - cen[1];
 				zr = z - cen[2];
@@ -63,13 +63,17 @@ void DATA::Initialization(){
 					m_zp.push_back(z);
 					m_up.push_back(0);
 					m_vp.push_back(0);
-					m_wp.push_back(0.21);
+					m_wp.push_back(6);
 					m_rho.push_back(13);
 					m_pressure.push_back(1000);
 					//m_energy.push_back(eos->energy(13,1000));
 					m_num_of_par++;
 				}
 			}
+	m_phi.assign(m_num_of_par,0);
+	m_Jx.assign(m_num_of_par,0);
+	m_Jy.assign(m_num_of_par,0);
+	m_Jz.assign(m_num_of_par,0);
 }
 
 void DATA::Buildup_neigh_list_and_ceoff_list(const vector<double> &xp, const vector<double> &yp, const vector<double> &zp, const double &distance, const int num_of_par){
@@ -171,9 +175,9 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 		g[i] = m_zp[neigh[i]] - m_zp[neigh[0]];
 		normal[2] -= g[i];
 	}
-	m_normal_x[neigh[0]] = normal[0];
-	m_normal_y[neigh[0]] = normal[1];
-	m_normal_z[neigh[0]] = normal[2];
+	m_normal_x[neigh[0]] = normal[0]/n;
+	m_normal_y[neigh[0]] = normal[1]/n;
+	m_normal_z[neigh[0]] = normal[2]/n;
 	double angles[30] = {0};
 	double length2 = sqrt(normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2]);
 	for (int i = 1; i <= n; i++){
@@ -279,9 +283,9 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 		coeff4.assign(30,0);
 		m_Boundary_Flag[neigh[0]] = 1;
 		n++;
-		h[n] = normal[0];
-		k[n] = normal[1];
-		g[n] = normal[2];
+		h[n] = normal[0] / (n - 1);
+		k[n] = normal[1] / (n - 1);
+		g[n] = normal[2] / (n - 1);
 
 		//initialize A
 		for (int i = 1; i <= 9; i++)
@@ -440,7 +444,7 @@ void DATA::Cross_Product(const vector<double> &vec1, const vector<double> &vec2,
 }
 
 void DATA::Get_MagneticFiled(const double x, const double y, const double z, vector<double> &B){
-	B[0] = 14.1 * sqrt(0.5*(1.0 - tanh((z - 1.5)/0.62)));
+	B[0] = 120 * sqrt(0.5*(1.0 - tanh((z - 1.5)/0.62)));
 	B[1] = 0;
 	B[2] = 0;
 }
