@@ -10,7 +10,7 @@
  */
 #ifndef HYPERBOLICSOLVERBASE_H_
 #define HYPERBOLICSOLVERBASE_H_
-
+#include <vector>
 namespace std {
 
 class Hyperbolic_Solver_Base {

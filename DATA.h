@@ -115,14 +115,17 @@ public:
 	vector<double>& Get_normal_x() {return m_normal_x;}
 	vector<double>& Get_normal_y() {return m_normal_y;}
 	vector<double>& Get_normal_z() {return m_normal_z;}
-	//! The mothods to fetch compressible related quantities
+	//! The methods to fetch compressible related quantities
 	vector<double>& Get_energy() {return m_energy;}
 	vector<double>& Get_rho() {return m_rho;}
 	vector<double>& Get_pressure() {return m_pressure;}
 	//! For basic setting
 	double Get_max_time() {return m_max_time;}
 	int Get_max_step() {return m_max_step;}
-
+	//! The methods to fetch force
+	vector<double>& Get_force_x() {return m_force_x;}
+	vector<double>& Get_force_y() {return m_force_y;}
+	vector<double>& Get_force_z() {return m_force_z;}
 	//! For debug
 	void Print_angle();
 

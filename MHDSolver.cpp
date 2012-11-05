@@ -41,17 +41,15 @@ void MHD_Solver::Solve(){
 			  m_data->Get_normal_z());
 	//m_petsc->Print_A(NULL);
 	//m_petsc->Print_b(NULL);
-	m_petsc->Solve_withPureNeumann_GMRES();
+	//m_petsc->Solve_withPureNeumann_GMRES();
+	m_petsc->Solve_LSQR();
 	//m_petsc->Print_x(NULL);
 	int iter;
 	double residual;
 	m_petsc->GetNumIterations(&iter);
 	m_petsc->GetFinalRelativeResidualNorm(&residual);
 	double *x = new double[num_of_par];
-	FILE *fp=fopen("x.dat","r");
-	for (int i = 0; i < num_of_par; i++)
-		fscanf(fp,"%le\n", &(x[i]));
-	//m_petsc->Get_x(x);
+	m_petsc->Get_x(x);
 	Set_Phi(m_data->Get_Phi(), x);
 	delete [] x;
 	Calculate_J(m_data->Get_neighbour_list(),

@@ -51,7 +51,7 @@ void PETSc::Create(
 	iLower	= ilower;	
 	iUpper 	= iupper;	
 	
-	MatCreateMPIAIJ(PETSC_COMM_WORLD,n,n,PETSC_DECIDE,PETSC_DECIDE,
+	MatCreateAIJ(PETSC_COMM_WORLD,n,n,PETSC_DECIDE,PETSC_DECIDE,
 				d_nz,PETSC_NULL,o_nz,PETSC_NULL,&A);	
 	ierr = PetscObjectSetName((PetscObject) A, "A");
 	ierr = MatSetFromOptions(A);		
@@ -257,8 +257,8 @@ void PETSc::Solve_LSQR(void)
         KSPSetOperators(ksp,A,A,DIFFERENT_NONZERO_PATTERN);
 	KSPSetType(ksp,KSPLSQR);
 
-	//KSPGetPC(ksp, &pc);
-	//PCSetType(pc, PCJACOBI);
+	KSPGetPC(ksp, &pc);
+	PCSetType(pc, PCNONE);
 
         KSPSetFromOptions(ksp);
         KSPSetUp(ksp);
@@ -365,36 +365,6 @@ void PETSc::Solve_withPureNeumann(void)
 	//start_clock("Before Petsc Solve in pure neumann solver");
         KSPSolve(ksp,b,x);
 	//stop_clock("After Petsc Solve in pure neumann solver");
-}
-
-void PETSc::Solve_withPureNeumann_LSQR(void)
-{
-    	ierr = MatAssemblyBegin(A,MAT_FINAL_ASSEMBLY);
-  	ierr = MatAssemblyEnd(A,MAT_FINAL_ASSEMBLY);
-  	
-  	ierr = VecAssemblyBegin(x);
-  	ierr = VecAssemblyEnd(x);
-
-  	ierr = VecAssemblyBegin(b);
-  	ierr = VecAssemblyEnd(b);
-
-
-  	MatNullSpaceCreate(PETSC_COMM_WORLD,PETSC_TRUE,0,PETSC_NULL,&nullsp);
-  	KSPSetNullSpace(ksp,nullsp);
-  	MatNullSpaceRemove(nullsp,b,PETSC_NULL);
-
-
-  	KSPSetOperators(ksp,A,A,DIFFERENT_NONZERO_PATTERN);
-
-  	KSPSetType(ksp,KSPLSQR);
-
-  	//KSPGetPC(ksp, &pc);
-  	//PCSetType(pc, PCASM);
-  	KSPSetFromOptions(ksp);
-  	KSPSetUp(ksp);
-  	//start_clock("Before Petsc Solve in pure neumann solver");
-  	KSPSolve(ksp,b,x);
-  	//stop_clock("After Petsc Solve in pure neumann solver");
 }
 
 void PETSc::Print_A(const char *filename)
