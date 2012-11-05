@@ -13,6 +13,7 @@
 
 #include "HyperbolicSolverBase.h"
 #include "DATA.h"
+#include "EOS.h"
 
 namespace std {
 
@@ -45,7 +46,8 @@ public:
 			vector<double> &vp_new,
 			vector<double> &wp_new,
 			vector<double> &rho_new,
-			vector<double> &e_new);
+			vector<double> &e_new,
+			vector<double> &p_new);
 	//! The methods to set everything
 	void Set_xp_old(vector<double> &xp){m_xp_old.assign(xp.begin(),xp.end());}
 	void Set_yp_old(vector<double> &yp){m_yp_old.assign(yp.begin(),yp.end());}
@@ -67,6 +69,7 @@ public:
 	void Set_pressure_current(vector<double> &pressure){m_pressure_current.assign(pressure.begin(),pressure.end());}
 private:
 	DATA *m_data;
+	EOS_BASE *m_EOS;
 	double m_dt;
 	vector<double> m_xp_old;
 	vector<double> m_yp_old;

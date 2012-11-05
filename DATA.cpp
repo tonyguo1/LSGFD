@@ -17,6 +17,7 @@ DATA::DATA() {
 	m_distance = 0;
 	m_max_step = 0;
 	m_max_time = 0;
+	m_cmax = 0;
 	// TODO Auto-generated constructor stub
 
 }
@@ -450,7 +451,10 @@ void DATA::Get_MagneticFiled(const double x, const double y, const double z, vec
 }
 
 double DATA::Get_dt(){
-	return 0.005;
+	if (m_cmax < 1e-16)
+		return 0.005;
+	else
+		return m_distance / m_cmax;
 }
 
 void DATA::Print_angle(){

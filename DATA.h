@@ -119,6 +119,8 @@ public:
 	vector<double>& Get_energy() {return m_energy;}
 	vector<double>& Get_rho() {return m_rho;}
 	vector<double>& Get_pressure() {return m_pressure;}
+	double& Get_cmax(){return m_cmax;}
+	void Set_cmax(double &cmax){m_cmax = cmax;}
 	//! For basic setting
 	double Get_max_time() {return m_max_time;}
 	int Get_max_step() {return m_max_step;}
@@ -143,6 +145,7 @@ private:
     vector<double> m_xp, m_yp, m_zp, m_up, m_vp, m_wp, m_rho, m_vol, m_mass;
     //! Compressible code related quantities, energy density, pressure, temperature
     vector<double> m_energy, m_pressure, m_temperature;
+    double m_cmax;
     //! MHD related quantities
     vector<double> m_Jx, m_Jy, m_Jz, m_phi;
     //! Force
