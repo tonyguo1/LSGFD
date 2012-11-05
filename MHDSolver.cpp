@@ -14,6 +14,7 @@ namespace std {
 MHD_Solver::MHD_Solver(DATA *data):m_data(data) {
 	// TODO Auto-generated constructor stub
 	m_petsc = NULL;
+	m_data->MHD_init();
 }
 
 MHD_Solver::~MHD_Solver() {
@@ -195,5 +196,22 @@ void MHD_Solver::Set_Phi(vector<double> &phi, double *x){
 	int num_of_par = m_data->Get_num_of_par();
 	for (int index = 0; index < num_of_par; index++)
 		phi[index] = x[index];
+}
+
+void MHD_Solver::Set_force(const vector<double> &Jx, const vector<double> &Jy, const vector<double> &Jz, vector<double> &fx, vector<double> &fy, vector<double> &fz){
+	int num_of_par = m_data->Get_num_of_par();
+	double lightSpeed=3e7;
+	for (int i = 0; i < num_of_par; i++){
+		vector<double> J(3,0), B(3,0);
+		vector<double> rslt(3,0);
+		J[0] = Jx[i];
+		J[1] = Jy[i];
+		J[2] = Jz[i];
+		m_data->Get_MagneticFiled(m_data->Get_x(i),m_data->Get_y(i),m_data->Get_z(i),B);
+		m_data->Cross_Product(J,B,rslt);
+		fx[i] = rslt[0] / lightSpeed;
+		fy[i] = rslt[1] / lightSpeed;
+		fz[i] = rslt[2] / lightSpeed;
+	}
 }
 } /* namespace std */

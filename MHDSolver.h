@@ -57,6 +57,7 @@ public:
                      vector<double> &Jy,
                      vector<double> &Jz,
                      const vector<double> &Phi);
+	void Set_force(const vector<double> &Jx, const vector<double> &Jy, const vector<double> &Jz, vector<double> &fx, vector<double> &fy, vector<double> &fz);
 
 private:
 	vector<double> m_UxB_x, m_UxB_y, m_UxB_z;

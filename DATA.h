@@ -32,6 +32,8 @@ public:
 	 *  Initialize particles and some settings
 	 */
 	void Initialization();
+	//! the method to initialize mhd variables
+	void MHD_init();
 	//! The method to build neighbour list and coefficient list
 	/*!
 	 *  This function will call functions from octree search class and coefficient calculation class

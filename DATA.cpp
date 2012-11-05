@@ -71,12 +71,17 @@ void DATA::Initialization(){
 					m_num_of_par++;
 				}
 			}
+	m_force_x.assign(m_num_of_par,0);
+	m_force_y.assign(m_num_of_par,0);
+	m_force_z.assign(m_num_of_par,0);
+}
+
+void DATA::MHD_init(){
 	m_phi.assign(m_num_of_par,0);
 	m_Jx.assign(m_num_of_par,0);
 	m_Jy.assign(m_num_of_par,0);
 	m_Jz.assign(m_num_of_par,0);
 }
-
 void DATA::Buildup_neigh_list_and_ceoff_list(const vector<double> &xp, const vector<double> &yp, const vector<double> &zp, const double &distance, const int num_of_par){
 	int N = num_of_par;
 	/** 5 is optimum for search */
@@ -277,7 +282,7 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 	m_coefficient_dudz[neigh[0]].assign(coeff4.begin(),coeff4.end());
 
 	// Calculating coefficients with ghost particle
-	if (angle > PI / 3 - 0.00001){
+	if (angle > PI / 4 - 0.00001){
 		coeff1.assign(30,0);
 		coeff2.assign(30,0);
 		coeff3.assign(30,0);
