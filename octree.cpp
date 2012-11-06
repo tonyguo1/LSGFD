@@ -680,3 +680,95 @@ int Octree::searchNeighbor(const double &search_x,
     // The actual neighbours are pointed to by the result pointer. 
     return result->size();
 }                
+
+int Octree::searchNeighbor(const double &search_x,
+                           const double &search_y,
+                           const double &search_z,
+                           const double &radius1,
+			   const double &radius2,
+			   std::vector<int> *result,
+			   std::vector<double> *distance) 
+{
+   std::deque<int> nodelist;
+   nodelist.push_back(0); // Push back the index of the root node, which is at position 0 in the octree vector.
+
+   // In this while loop, we find all the leaf nodes of the octree which intersect the search region.  
+   // If, at the end of the while loop, nodelist queue is empty, that means no leaf node intersects the search region and hence the search point has no particles in it neighbourhood.
+   // In this we don't check whether an octree node is a subset of the search region. 
+   // Paradoxically, this seems to be performing better than an algorithm which does. This needs some more investigating. 
+   // Probably for deeper octrees and smaller search radii. that algorithm will endup outperforming this one. Also that means the subset check would need to be improved upon, since it could be the bottleneck. 
+   while( 1 ) 
+   {
+
+     //std::cout << nodelist.size() << std::endl;
+     // If the node-list is empty stop the execution of he current function, and return 0, since 0 neighbours have been founf. 
+     // Also as a result, you see that nothing is in the deque pointed to be result.
+    if( nodelist.empty() ) 
+      { 
+        return 0;
+      }
+    // Get the node number at the front of the queue.
+    // The popping will be done at the end of the while loop.
+    int inode       = nodelist[0];
+    int first_index = m_vFirstChildIndex[inode];
+
+    // If the head node of the deque is a leaf that means all the remaining nodes in the deque are also leaves. 
+    // So we can now exit the while loop and process look through all the particles within the leaf nodes. 
+    if( first_index == -1 ) 
+      {
+        break;
+      }
+
+    int last_index = first_index + m_vNumberOfChildren[ inode ];
+    //  Find all the child nodes of the CURRENT node which intersect the sphere having radius "radius".
+    //  After finding push_back their index onto the stack.
+    for(int i=first_index ; i < last_index ; i++) 
+     {
+       if(   is_node_intersect_search_region( m_vLowerLimitOfX[i],\
+                                              m_vUpperLimitOfX[i],\
+                                              m_vLowerLimitOfY[i],\
+                                              m_vUpperLimitOfY[i],\
+                                              m_vLowerLimitOfZ[i],\
+                                              m_vUpperLimitOfZ[i],\
+                                              search_x,\
+                                              search_y,\
+                                              search_z, radius2) )
+	 {
+             nodelist.push_back( i );
+	 }
+    }
+    nodelist.pop_front( );
+  }
+  // When the  above while-loop ends normally, the queue consists only of leaf nodes intersecting the search region.
+  // We now look at every particle in each leaf node looking for neighbouring particles. Probably as an optimization step,
+  // it would be interesting to first mark all the leaf nodes which are a subset of the search region , so all the particles within
+  // such leaf nodes can be directly added. 
+  while( !nodelist.empty() ) 
+   {
+    
+     // Number at the front of the queue
+    int index = nodelist[0];
+     // Positions of the first and the last particles within the node pointed to by index. 
+    int first = m_vFirstParticleIndex[index];
+    int end   = first + m_vNumberOfContainedParticles[index];
+    
+    // Cycle through all the particles within the current leaf node and look for neighbours.
+    for (int i = first; i < end; i++) 
+     {
+      double dx = search_x - m_vCoordX[ m_vParticleKeyIndex[i].index ];
+      double dy = search_y - m_vCoordY[ m_vParticleKeyIndex[i].index ];
+      double dz = search_z - m_vCoordZ[ m_vParticleKeyIndex[i].index ];
+      double squared_distance = dx*dx + dy*dy + dz*dz;
+      if( squared_distance < radius2*radius2 && squared_distance > radius1*radius1) 
+        {
+          result->push_back(m_vParticleKeyIndex[i].index);
+	  distance->push_back(sqrt(squared_distance));
+        }
+    }
+    // Since all the information needed from the queue head has been processes we have no need for it any more. So pop it.
+    nodelist.pop_front();
+  }
+    // Return the number of neighbours found.
+    // The actual neighbours are pointed to by the result pointer. 
+    return result->size();
+}                

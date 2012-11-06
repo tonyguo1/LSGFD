@@ -25,7 +25,7 @@ void MHD_Solver::Solve(){
 	PETSc petsc;
 	m_petsc = &petsc;
 	int num_of_par = m_data->Get_num_of_par();
-	m_petsc->Create(0, num_of_par - 1, 30, 0);
+	m_petsc->Create(0, num_of_par - 1, 100, 0);
 	m_petsc->SetTol(1e-15);
 	Initializae_UxB();
 	SetMatrix(m_data->Get_neighbour_list(),
@@ -40,8 +40,9 @@ void MHD_Solver::Solve(){
 			  m_data->Get_normal_x(),
 			  m_data->Get_normal_y(),
 			  m_data->Get_normal_z());
-	//m_petsc->Print_A(NULL);
-	//m_petsc->Print_b(NULL);
+	m_petsc->Print_A(NULL);
+	m_petsc->Print_b(NULL);
+	assert(0);
 	//m_petsc->Solve_withPureNeumann_GMRES();
 	m_petsc->Solve_LSQR();
 	//m_petsc->Print_x(NULL);

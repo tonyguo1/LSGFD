@@ -33,7 +33,7 @@ void DATA::Initialization(){
 	double L[3] = {-0.5, -0.5, -8};
 	double U[3] = {0.5, 0.5, 0};
 	double cen[3] = {0, 0, -4}, R = 0.5, length = 3.5, dist = 0;
-	m_distance = 0.1; 
+	m_distance = 0.05;
 	double xr, yr, zr;
 	int num_par_x, num_par_y, num_par_z;
 	num_par_x = static_cast<int>((U[0] - L[0])/m_distance + 1e-7);
@@ -123,16 +123,16 @@ void DATA::Buildup_neigh_list_and_ceoff_list(const vector<double> &xp, const vec
 		vector<pair<double, int> >::iterator it_v = vecs.begin();;
 		sort(vecs.begin(),vecs.end());
 		int num = 1;
-		while (num < 28 && it_v != vecs.end()){
+		while (it_v != vecs.end()){
 			neigh.push_back((*it_v).second);
 			num++;
 			++it_v;
 		}
-		m_neighbour_list[i_index] = neigh;
 
 
 		/** Get the coefficients*/
 		GetLSCoefficient(neigh, coeff1, coeff2,coeff3,coeff4);
+		m_neighbour_list[i_index].assign(neigh.begin(),neigh.begin()+27);
 		neigh.clear();
 		coeff1.assign(30,0);
 		coeff2.assign(30,0);
@@ -173,9 +173,9 @@ void DATA::Clear_neigh_list_and_ceoff_list(){
 void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, vector<double> &coeff2, vector<double> &coeff3, vector<double> &coeff4){
 	int n = neigh.size() - 1;
 	double normal[3] = {0};
-	double h[30] = {0};
-	double k[30] = {0};
-	double g[30] = {0};
+	double h[150] = {0};
+	double k[150] = {0};
+	double g[150] = {0};
 	for ( int i = 1; i <= n; i++ ){
 		h[i] = m_xp[neigh[i]] - m_xp[neigh[0]];
 		normal[0] -= h[i];
@@ -187,7 +187,7 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 	m_normal_x[neigh[0]] = normal[0]/n;
 	m_normal_y[neigh[0]] = normal[1]/n;
 	m_normal_z[neigh[0]] = normal[2]/n;
-	double angles[30] = {0};
+	double angles[150] = {0};
 	double length2 = sqrt(normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2]);
 	for (int i = 1; i <= n; i++){
 		double dot = (h[i] * normal[0] + k[i] * normal[1] + g[i] * normal[2]);
@@ -201,6 +201,7 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 	}
 	double angle = *(min_element(angles+1, angles+n));
 	m_angle.push_back(angle);
+	n=26;
 	//initialize A
 	double A[10][10];
 	for (int i = 1; i <= 9; i++)
@@ -292,9 +293,9 @@ void DATA::GetLSCoefficient(const vector<int> &neigh, vector<double> &coeff1, ve
 		coeff4.assign(30,0);
 		m_Boundary_Flag[neigh[0]] = 1;
 		n++;
-		h[n] = normal[0] / (n - 1);
-		k[n] = normal[1] / (n - 1);
-		g[n] = normal[2] / (n - 1);
+		h[n] = m_normal_x[neigh[0]];
+		k[n] = m_normal_y[neigh[0]];
+		g[n] = m_normal_z[neigh[0]];
 
 		//initialize A
 		for (int i = 1; i <= 9; i++)

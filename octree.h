@@ -220,6 +220,13 @@ public:
                      const double &radius,
 		     std::vector<int> *result,
 		     std::vector<double> *distance);
+  int searchNeighbor(const double &search_x,
+                     const double &search_y,
+                     const double &search_z,
+                     const double &radius1,
+                     const double &radius2,
+		     std::vector<int> *result,
+		     std::vector<double> *distance);
 private:
     /*!
         \brief This method computes the Morton Key for a particle whose coordinates are x,y and z.
