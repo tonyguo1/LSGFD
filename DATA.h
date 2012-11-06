@@ -17,6 +17,7 @@
 #include <vector>
 #include "octree.h"
 #include "solver_lapack_cf.h"
+#include "EOS.h"
 #include <deque>
 #include <utility>
 #include <algorithm>
@@ -121,6 +122,7 @@ public:
 	vector<double>& Get_energy() {return m_energy;}
 	vector<double>& Get_rho() {return m_rho;}
 	vector<double>& Get_pressure() {return m_pressure;}
+	void Set_eos(const double& rho, const double& TE, double& p, double& cs){m_EOS->eos(rho,TE,p,cs);};
 	double& Get_cmax(){return m_cmax;}
 	void Set_cmax(double &cmax){m_cmax = cmax;}
 	//! For basic setting
@@ -179,6 +181,8 @@ private:
     
     //! for debug
     vector<double> m_angle;
+    //! EOS pointer
+    EOS_BASE *m_EOS;
 };
 
 } /* namespace std */

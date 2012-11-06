@@ -18,6 +18,7 @@ DATA::DATA() {
 	m_max_step = 0;
 	m_max_time = 0;
 	m_cmax = 0;
+	m_EOS = new EOS_SPOLY();
 	// TODO Auto-generated constructor stub
 
 }
@@ -67,7 +68,9 @@ void DATA::Initialization(){
 					m_wp.push_back(6);
 					m_rho.push_back(13);
 					m_pressure.push_back(1000);
-					//m_energy.push_back(eos->energy(13,1000));
+					double e=0;
+					m_EOS->ThermalEnergy(13,1000,e);
+					m_energy.push_back(e);
 					m_num_of_par++;
 				}
 			}
@@ -459,7 +462,7 @@ double DATA::Get_dt(){
 	if (m_cmax < 1e-16)
 		return 0.005;
 	else
-		return m_distance / m_cmax;
+		return 0.4 * m_distance / m_cmax;
 }
 
 void DATA::Print_angle(){

@@ -23,20 +23,11 @@ public:
 	void Init();
 	virtual void Integrate(const double &dt);
 private:
-	//! Variables of n - 1 step
-	vector<double> m_xp_pre;
-	vector<double> m_yp_pre;
-	vector<double> m_zp_pre;
-	vector<double> m_up_pre;
-	vector<double> m_vp_pre;
-	vector<double> m_wp_pre;
-	vector<double> m_rho_pre;
-	vector<double> m_energy_pre;
 	//! pointer to data
 	DATA *m_data;
-	double m_dt;
 	Elliptic_Solver_Base *m_ES;
 	Hyperbolic_Solver_Base *m_HS;
+	double m_old_dt;
 };
 
 } /* namespace std */

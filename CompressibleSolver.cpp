@@ -10,16 +10,6 @@
 
 namespace std {
 Compressible_Solver::Compressible_Solver(DATA *data):m_data(data),m_dt(0){
-	Set_xp_current(m_data->Get_x());
-	Set_yp_current(m_data->Get_y());
-	Set_zp_current(m_data->Get_z());
-	Set_up_current(m_data->Get_u());
-	Set_vp_current(m_data->Get_v());
-	Set_wp_current(m_data->Get_w());
-	Set_rho_current(m_data->Get_rho());
-	Set_energy_current(m_data->Get_energy());
-	Set_pressure_current(m_data->Get_pressure());
-	m_EOS = new EOS_SPOLY();
 }
 
 Compressible_Solver::~Compressible_Solver() {
@@ -28,24 +18,6 @@ Compressible_Solver::~Compressible_Solver() {
 
 void Compressible_Solver::Solve()
 {
-	Set_xp_old(m_xp_current);
-	Set_yp_old(m_yp_current);
-	Set_zp_old(m_zp_current);
-	Set_up_old(m_up_current);
-	Set_vp_old(m_vp_current);
-	Set_wp_old(m_wp_current);
-	Set_rho_old(m_rho_current);
-	Set_energy_old(m_energy_current);
-	Set_pressure_old(m_pressure_old);
-	Set_xp_current(m_data->Get_x());
-	Set_yp_current(m_data->Get_y());
-	Set_zp_current(m_data->Get_z());
-	Set_up_current(m_data->Get_u());
-	Set_vp_current(m_data->Get_v());
-	Set_wp_current(m_data->Get_w());
-	Set_rho_current(m_data->Get_rho());
-	Set_energy_current(m_data->Get_energy());
-	Set_pressure_current(m_data->Get_pressure());
 	Update_States(m_data->Get_neighbour_list(),
 			m_data->Get_coefficient_laplacian(),
 			m_data->Get_coefficient_dudx(),
@@ -121,7 +93,7 @@ void Compressible_Solver::Update_States(//! input
 		wp_new[i_index]  = m_zp_old[i_index]     + az*m_dt;
 		rho_new[i_index] = m_rho_old[i_index]    + arho*m_dt;
 		e_new[i_index]   = m_energy_old[i_index] + ae*m_dt;
-		m_EOS->eos(rho_new[i_index], e_new[i_index], p_new[i_index], cs);
+		m_data->Set_eos(rho_new[i_index], e_new[i_index], p_new[i_index], cs);
 		if (cs > cmax)
 			cmax = cs;
 	}

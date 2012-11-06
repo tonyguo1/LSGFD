@@ -9,8 +9,8 @@
 #include "math.h"
 
 EOS_SPOLY::EOS_SPOLY(){
-	Set_gamma(5.7);
-	Set_pinf(50000.0);
+	Set_gamma(6.0);
+	Set_pinf(47517.0);
 	Set_einf(0.0);
 }
 

@@ -69,6 +69,8 @@ void MHD_Solver::Solve(){
 		      	m_data->Get_Jy(),
 		      	m_data->Get_Jz(),
 		      	m_data->Get_Phi());
+	Set_force(m_data->Get_Jx(),m_data->Get_Jy(),m_data->Get_Jz(),m_data->Get_force_x(),m_data->Get_force_y(),m_data->Get_force_z());
+
 }
 
 void MHD_Solver::SetMatrix(const vector<vector<int> > &neighbour_list,

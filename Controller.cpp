@@ -10,7 +10,7 @@
 
 namespace std {
 
-Controller::Controller():m_time(0),m_dt(0),m_step(0),m_i_output(0),m_nprint(0),m_max_step(1000),m_max_time(10),m_next_print_time(0),m_print_interval(2){
+Controller::Controller():m_time(0),m_dt(0),m_step(0),m_i_output(0),m_nprint(0),m_max_step(1000),m_max_time(10),m_next_print_time(0),m_print_interval(0.1){
 	// TODO Auto-generated constructor stub
 	m_time_integrator = NULL;
 	Initialization();

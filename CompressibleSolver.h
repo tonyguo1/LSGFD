@@ -13,7 +13,6 @@
 
 #include "HyperbolicSolverBase.h"
 #include "DATA.h"
-#include "EOS.h"
 
 namespace std {
 
@@ -49,27 +48,36 @@ public:
 			vector<double> &e_new,
 			vector<double> &p_new);
 	//! The methods to set everything
-	void Set_xp_old(vector<double> &xp){m_xp_old.assign(xp.begin(),xp.end());}
-	void Set_yp_old(vector<double> &yp){m_yp_old.assign(yp.begin(),yp.end());}
-	void Set_zp_old(vector<double> &zp){m_zp_old.assign(zp.begin(),zp.end());}
-	void Set_up_old(vector<double> &up){m_up_old.assign(up.begin(),up.end());}
-	void Set_vp_old(vector<double> &vp){m_vp_old.assign(vp.begin(),vp.end());}
-	void Set_wp_old(vector<double> &wp){m_wp_old.assign(wp.begin(),wp.end());}
-	void Set_rho_old(vector<double> &rho){m_rho_old.assign(rho.begin(),rho.end());}
-	void Set_energy_old(vector<double> &energy){m_energy_old.assign(energy.begin(),energy.end());}
-	void Set_pressure_old(vector<double> &pressure){m_pressure_old.assign(pressure.begin(),pressure.end());}
-	void Set_xp_current(vector<double> &xp){m_xp_current.assign(xp.begin(),xp.end());}
-	void Set_yp_current(vector<double> &yp){m_yp_current.assign(yp.begin(),yp.end());}
-	void Set_zp_current(vector<double> &zp){m_zp_current.assign(zp.begin(),zp.end());}
-	void Set_up_current(vector<double> &up){m_up_current.assign(up.begin(),up.end());}
-	void Set_vp_current(vector<double> &vp){m_vp_current.assign(vp.begin(),vp.end());}
-	void Set_wp_current(vector<double> &wp){m_wp_current.assign(wp.begin(),wp.end());}
-	void Set_rho_current(vector<double> &rho){m_rho_current.assign(rho.begin(),rho.end());}
-	void Set_energy_current(vector<double> &energy){m_energy_current.assign(energy.begin(),energy.end());}
-	void Set_pressure_current(vector<double> &pressure){m_pressure_current.assign(pressure.begin(),pressure.end());}
+	virtual void Set_xp_old(vector<double> &xp){m_xp_old.assign(xp.begin(),xp.end());}
+	virtual void Set_yp_old(vector<double> &yp){m_yp_old.assign(yp.begin(),yp.end());}
+	virtual void Set_zp_old(vector<double> &zp){m_zp_old.assign(zp.begin(),zp.end());}
+	virtual void Set_up_old(vector<double> &up){m_up_old.assign(up.begin(),up.end());}
+	virtual void Set_vp_old(vector<double> &vp){m_vp_old.assign(vp.begin(),vp.end());}
+	virtual void Set_wp_old(vector<double> &wp){m_wp_old.assign(wp.begin(),wp.end());}
+	virtual void Set_rho_old(vector<double> &rho){m_rho_old.assign(rho.begin(),rho.end());}
+	virtual void Set_energy_old(vector<double> &energy){m_energy_old.assign(energy.begin(),energy.end());}
+	virtual void Set_pressure_old(vector<double> &pressure){m_pressure_old.assign(pressure.begin(),pressure.end());}
+	virtual void Set_xp_current(vector<double> &xp){m_xp_current.assign(xp.begin(),xp.end());}
+	virtual void Set_yp_current(vector<double> &yp){m_yp_current.assign(yp.begin(),yp.end());}
+	virtual void Set_zp_current(vector<double> &zp){m_zp_current.assign(zp.begin(),zp.end());}
+	virtual void Set_up_current(vector<double> &up){m_up_current.assign(up.begin(),up.end());}
+	virtual void Set_vp_current(vector<double> &vp){m_vp_current.assign(vp.begin(),vp.end());}
+	virtual void Set_wp_current(vector<double> &wp){m_wp_current.assign(wp.begin(),wp.end());}
+	virtual void Set_rho_current(vector<double> &rho){m_rho_current.assign(rho.begin(),rho.end());}
+	virtual void Set_energy_current(vector<double> &energy){m_energy_current.assign(energy.begin(),energy.end());}
+	virtual void Set_pressure_current(vector<double> &pressure){m_pressure_current.assign(pressure.begin(),pressure.end());}
+	virtual vector<double>& Get_xp_current(){return m_xp_current;}
+	virtual vector<double>& Get_yp_current(){return m_yp_current;}
+	virtual vector<double>& Get_zp_current(){return m_zp_current;}
+	virtual vector<double>& Get_up_current(){return m_up_current;}
+	virtual vector<double>& Get_vp_current(){return m_vp_current;}
+	virtual vector<double>& Get_wp_current(){return m_wp_current;}
+	virtual vector<double>& Get_rho_current(){return m_rho_current;}
+	virtual vector<double>& Get_energy_current(){return m_energy_current;}
+	virtual vector<double>& Get_pressure_current(){return m_pressure_current;}
+
 private:
 	DATA *m_data;
-	EOS_BASE *m_EOS;
 	double m_dt;
 	vector<double> m_xp_old;
 	vector<double> m_yp_old;
