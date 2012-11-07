@@ -6,11 +6,12 @@
  */
 
 #include "Controller.h"
+#include <iostream>
 #include <assert.h>
 
 namespace std {
 
-Controller::Controller():m_time(0),m_dt(0),m_step(0),m_i_output(0),m_nprint(0),m_max_step(100),m_max_time(10),m_next_print_time(0),m_print_interval(0.1){
+Controller::Controller():m_time(0),m_dt(0),m_step(0),m_i_output(0),m_nprint(0),m_max_step(10000),m_max_time(1),m_next_print_time(0),m_print_interval(0.001){
 	// TODO Auto-generated constructor stub
 	m_time_integrator = NULL;
 	Initialization();
@@ -38,7 +39,8 @@ void Controller::Start(){
 		m_data.Clear_neigh_list_and_ceoff_list();
 		m_data.Buildup_neigh_list_and_ceoff_list(m_data.Get_x(), m_data.Get_y(), m_data.Get_z(), 3 * m_data.Get_distance(), m_data.Get_num_of_par());
 		m_time_integrator->Integrate(m_dt);
-		//if (m_i_output)
+		cout<<"Time = "<<m_time<<" "<<"Step = "<<m_step<<" "<<"dt = "<<m_dt<<endl;
+		if (m_i_output)
 			m_data.Print(m_time, m_step, "vtkoutput");
 	}
 	if (m_time < m_max_time)

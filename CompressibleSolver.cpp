@@ -101,7 +101,7 @@ void Compressible_Solver::Set_force(const vector<double> &x, const vector<double
 	int num_of_par = m_data->Get_num_of_par();
 	for (int i_index = 0; i_index < num_of_par; i_index++){
 		if (z[i_index] > 0){
-			fx[i_index] = 0;
+			fx[i_index] = -9.8e-4;
 			fy[i_index] = 0;
 			fz[i_index] = 0;
 		}
