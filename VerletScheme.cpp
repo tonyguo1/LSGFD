@@ -32,9 +32,7 @@ void Verlet_Scheme::Init(){
 }
 
 void Verlet_Scheme::Integrate(const double &dt){
-	m_ES->Solve();
-	m_data->Print(0,0,NULL);
-	assert(0);
+	//m_ES->Solve();
 	Set_old_current_states();
 	m_HS->Set_dt(dt+m_old_dt);
 	m_HS->Solve(

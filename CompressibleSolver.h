@@ -64,6 +64,7 @@ public:
 			vector<double> &rho_new,
 			vector<double> &e_new,
 			vector<double> &p_new);
+	void Set_force(const vector<double> &x, const vector<double> &y, const vector<double> &z, vector<double> &fx, vector<double> &fy, vector<double> &fz);
 private:
 	DATA *m_data;
 	double m_dt;

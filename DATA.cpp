@@ -33,7 +33,7 @@ void DATA::Initialization(){
 	double L[3] = {-0.5, -0.5, -8};
 	double U[3] = {0.5, 0.5, 0};
 	double cen[3] = {0, 0, -4}, R = 0.5, length = 3.5, dist = 0;
-	m_distance = 0.05;
+	m_distance = 0.1;
 	double xr, yr, zr;
 	int num_par_x, num_par_y, num_par_z;
 	num_par_x = static_cast<int>((U[0] - L[0])/m_distance + 1e-7);
@@ -414,13 +414,13 @@ void DATA::Print(const double t, const int step, const char* outputname){
 	for (i = 0; i < m_num_of_par; i++)
 		fprintf(outfile,"%.16g %.16g %.16g\n",m_xp[i],m_yp[i],m_zp[i]);
 	fprintf(outfile,"POINT_DATA %d\n",m_num_of_par);
-	fprintf(outfile,"VECTORS Current double\n");
+	fprintf(outfile,"VECTORS Velocity double\n");
 	for (i = 0; i < m_num_of_par; i++)
-		fprintf(outfile,"%.16g %.16g %.16g\n",m_Jx[i],m_Jy[i],m_Jz[i]);
-	fprintf(outfile,"SCALARS Type integer\n");
-	fprintf(outfile,"LOOKUP_TABLE default\n");
-	for (i = 0; i < m_num_of_par; i++)
-		fprintf(outfile,"%d\n",m_Boundary_Flag[i]);
+		fprintf(outfile,"%.16g %.16g %.16g\n",m_up[i],m_vp[i],m_wp[i]);
+//	fprintf(outfile,"SCALARS Type integer\n");
+//	fprintf(outfile,"LOOKUP_TABLE default\n");
+//	for (i = 0; i < m_num_of_par; i++)
+//		fprintf(outfile,"%d\n",m_Boundary_Flag[i]);
 	fclose(outfile);
 }
 
@@ -461,9 +461,9 @@ void DATA::Get_MagneticFiled(const double x, const double y, const double z, vec
 
 double DATA::Get_dt(){
 	if (m_cmax < 1e-16)
-		return 0.005;
+		return 1e-8;
 	else
-		return 0.4 * m_distance / m_cmax;
+		return 0.1 * m_distance / m_cmax;
 }
 
 void DATA::Print_angle(){

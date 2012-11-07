@@ -53,6 +53,7 @@ void Compressible_Solver::Solve(//! input
 		vector<double> &rho_new,
 		vector<double> &energy_new,
 		vector<double> &pressure_new){
+	Set_force(m_data->Get_x(),m_data->Get_y(),m_data->Get_z(),m_data->Get_force_x(),m_data->Get_force_y(),m_data->Get_force_z());
 	double cmax = 0;
 	int num_of_par = m_data->Get_num_of_par();
 	double ax,ay,az,arho,ae;
@@ -86,7 +87,7 @@ void Compressible_Solver::Solve(//! input
 		zp_new[i_index]  = zp_old[i_index]     + wp_current[i_index]*m_dt;
 		up_new[i_index]  = up_old[i_index]     + ax*m_dt;
 		vp_new[i_index]  = vp_old[i_index]     + ay*m_dt;
-		wp_new[i_index]  = zp_old[i_index]     + az*m_dt;
+		wp_new[i_index]  = wp_old[i_index]     + az*m_dt;
 		rho_new[i_index] = rho_old[i_index]    + arho*m_dt;
 		energy_new[i_index]   = energy_old[i_index] + ae*m_dt;
 		m_data->Set_eos(rho_new[i_index], energy_new[i_index], pressure_new[i_index], cs);
@@ -94,6 +95,22 @@ void Compressible_Solver::Solve(//! input
 			cmax = cs;
 	}
 	m_data->Set_cmax(cmax);
+}
+
+void Compressible_Solver::Set_force(const vector<double> &x, const vector<double> &y, const vector<double> &z, vector<double> &fx, vector<double> &fy, vector<double> &fz){
+	int num_of_par = m_data->Get_num_of_par();
+	for (int i_index = 0; i_index < num_of_par; i_index++){
+		if (z[i_index] > 0){
+			fx[i_index] = 0;
+			fy[i_index] = 0;
+			fz[i_index] = 0;
+		}
+		else{
+			fx[i_index] = 0;
+			fy[i_index] = 0;
+			fz[i_index] = 0;
+		}
+	}
 }
 
 } /* namespace std */
