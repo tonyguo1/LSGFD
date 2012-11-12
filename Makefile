@@ -1,4 +1,4 @@
-CXX=mpicxx -O3 -Wall -pedantic
+CXX=mpicxx -g -Wall -pedantic
 INCS= -I. -I/home/tongfei/soft/PETSc/include -I/home/tongfei/soft/PETSc/arch-linux2-c-debug/include
 LIBS = -L/home/tongfei/soft/PETSc/arch-linux2-c-debug/lib 
 
